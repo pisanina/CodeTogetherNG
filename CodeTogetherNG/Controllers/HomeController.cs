@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CodeTogetherNG.Models;
+using Dapper;
+using System.Data.SqlClient;
 
 namespace CodeTogetherNG.Controllers
 {
@@ -31,6 +33,23 @@ namespace CodeTogetherNG.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        public IActionResult AddProject()
+        {
+            ViewData["Message"] = "Add Project.";
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddProject(AddProjectViewModel AddProject)
+        {
+            ViewData["Message"] = "Add Project.";
+
+            SqlConnection SQLConnect = new SqlConnection(@"Server = DESKTOP-67FEEF1\SQLEXPRESS; Database = CodeTogetherNG; Trusted_Connection = True;");
+            SQLConnect.Execute("Insert into Project Values ('"+AddProject.Title+"','"+AddProject.Description+"')"); 
             return View();
         }
 
