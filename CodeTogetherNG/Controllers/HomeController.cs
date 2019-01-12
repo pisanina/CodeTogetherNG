@@ -1,5 +1,6 @@
 ﻿using CodeTogetherNG.Models;
 using Dapper;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
@@ -63,6 +64,14 @@ namespace CodeTogetherNG.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            var exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            SqlConnection SQLConnect =
+               new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+
+            SQLConnect.Execute("Exec Logs_Add @ErrorMessage=@E",
+                new { E = exceptionFeature.Error.Message });
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
