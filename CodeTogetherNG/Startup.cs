@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using CodeTogetherNG.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CodeTogetherNG.Repositories;
 
 namespace CodeTogetherNG
 {
@@ -39,7 +40,7 @@ namespace CodeTogetherNG
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            //services.AddSingleton<IRepository>(dapperrepo);
+            services.AddScoped<IRepository, DapperRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

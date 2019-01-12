@@ -1,4 +1,5 @@
 ﻿using CodeTogetherNG.Models;
+using CodeTogetherNG.Repositories;
 using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace CodeTogetherNG.Controllers
     public class HomeController : Controller
     {
         private readonly IConfiguration configuration;
+        private readonly IRepository repo;
 
-        public HomeController(IConfiguration config)
+        public HomeController(IConfiguration config, IRepository repo)
         {
             this.configuration = config;
+            this.repo = repo;
         }
 
         public IActionResult Index()
@@ -53,38 +56,27 @@ namespace CodeTogetherNG.Controllers
         {
             ViewData["Message"] = "Add Project.";
 
-            SqlConnection SQLConnect =
-                new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
-            // SQLConnect.Execute("Insert into Project Values ('"+AddProject.Title+"','"+AddProject.Description+"')");
-            SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D",
-                new { T = AddProject.Title, D = AddProject.Description });
+            repo.NewProject(AddProject);
             return ProjectsGrid();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             var exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
-            SqlConnection SQLConnect =
-               new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
-
-            SQLConnect.Execute("Exec Logs_Add @ErrorMessage=@E",
-                new { E = exceptionFeature.Error.Message });
+            repo.ErrorsLog(exceptionFeature);
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
 
         public IActionResult ProjectsGrid()
         {
             ViewData["Message"] = "Grid of Projects.";
 
-            SqlConnection SQLConnect =
-               new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
-
-            var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Projects_Get");
-
-            return View("ProjectsGrid", Grid);
+            return View("ProjectsGrid", repo.AllProjects());
         }
     }
 }
