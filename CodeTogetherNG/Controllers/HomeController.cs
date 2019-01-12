@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CodeTogetherNG.Models;
+﻿using CodeTogetherNG.Models;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace CodeTogetherNG.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration configuration;
+
+        public HomeController(IConfiguration config)
+        {
+            this.configuration = config;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -36,6 +40,7 @@ namespace CodeTogetherNG.Controllers
             return View();
         }
 
+       
         public IActionResult AddProject()
         {
             ViewData["Message"] = "Add Project.";
@@ -48,8 +53,11 @@ namespace CodeTogetherNG.Controllers
         {
             ViewData["Message"] = "Add Project.";
 
-            SqlConnection SQLConnect = new SqlConnection(@"Server = DESKTOP-67FEEF1\SQLEXPRESS; Database = CodeTogetherNG; Trusted_Connection = True;");
-            SQLConnect.Execute("Insert into Project Values ('"+AddProject.Title+"','"+AddProject.Description+"')"); 
+            SqlConnection SQLConnect =
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            // SQLConnect.Execute("Insert into Project Values ('"+AddProject.Title+"','"+AddProject.Description+"')");
+            SQLConnect.Execute("Insert into Project (Title, Description) Values ( @Title,  @Description);",
+                new { Title = AddProject.Title, Description = AddProject.Description });
             return View();
         }
 
