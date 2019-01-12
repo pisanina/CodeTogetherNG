@@ -57,7 +57,7 @@ namespace CodeTogetherNG.Controllers
             // SQLConnect.Execute("Insert into Project Values ('"+AddProject.Title+"','"+AddProject.Description+"')");
             SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D",
                 new { T = AddProject.Title, D = AddProject.Description });
-            return View();
+            return ProjectsGrid();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -72,10 +72,10 @@ namespace CodeTogetherNG.Controllers
 
             SqlConnection SQLConnect =
                new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+
             var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Projects_Get");
 
-            //List<ProjectsGridViewModel> Grid = new List<ProjectsGridViewModel>();
-            return View(Grid);
+            return View("ProjectsGrid", Grid);
         }
     }
 }
