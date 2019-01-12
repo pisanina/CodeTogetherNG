@@ -71,7 +71,7 @@ namespace CodeTogetherNGTests
             A.CallTo(() =>
                 _repository.AllProjects()).MustHaveHappened(Repeated.Exactly.Once);
 
-            Assert.NotNull(result);
+            Assert.Null(result);
             //castujemy result do obiektu zwracanego przez controllera gdy on ma return View(...)
             var viewResult = (ViewResult)result;
             //upewniamy sie ze metoda zwraca poprawny widok
