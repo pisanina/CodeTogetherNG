@@ -4,5 +4,6 @@
     {
         public string Title;
         public string Description;
+        public System.DateTimeOffset CreationDate; 
     }
 }
