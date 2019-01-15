@@ -1,5 +1,3 @@
-using System;
-
 namespace CodeTogetherNG.Models
 {
     public class ErrorViewModel

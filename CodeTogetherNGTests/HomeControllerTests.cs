@@ -15,12 +15,12 @@ namespace CodeTogetherNGTests
     public class HomeControllerTests
     {
         //deklarujemy controlera ktorego bedziemy testowac
-        private  HomeController _homeController;
+        private HomeController _homeController;
 
         //deklaracje dependencies controllera
-        private  IConfiguration _config;
+        private IConfiguration _config;
 
-        private  IRepository _repository;
+        private IRepository _repository;
 
         [SetUp]
         public void CreateControllerForTests()
@@ -40,7 +40,7 @@ namespace CodeTogetherNGTests
             //AddProject metoda wymaga parametru AddProjectViewModel, wiec tworzymy jakeigos dla testow
             AddProjectViewModel addProjectViewModel = new AddProjectViewModel
             {
-                Title       = "unit test title",
+                Title = "unit test title",
                 Description = "unit test description"
             };
             //tworzymy sztuczna liste projektow, by unit test nie probowal laczyc sie z baza danych. Nie chcemy testowac poalczenia do bazy danych czy bazy danych. To unit test tylko dla controllera. I jedynie dla kontrollera. Wiec wszystko inne musi byc mockniete.
@@ -94,7 +94,7 @@ namespace CodeTogetherNGTests
             };
             A.CallTo(() =>
                 _repository.AllProjects()).Returns(projectList);
-            
+
             //ACT
             var result = _homeController.ProjectsGrid();
 
@@ -103,7 +103,7 @@ namespace CodeTogetherNGTests
             A.CallTo(() =>
                _repository.AllProjects()).MustHaveHappened(Repeated.Exactly.Once);
 
-           // Assert.NotNull(result);
+            // Assert.NotNull(result);
             var viewResult = (ViewResult)result;
             Assert.AreEqual("ProjectsGrid", viewResult.ViewName);
         }
@@ -112,14 +112,11 @@ namespace CodeTogetherNGTests
         public void ErrorTest()
         {
             _homeController.ControllerContext.HttpContext = new DefaultHttpContext();
-           
-            //ACT
+
             var result = _homeController.Error();
 
-            //Assert
             A.CallTo(() =>
               _repository.ErrorsLog(A<IExceptionHandlerPathFeature>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
-            //Assert.NotNull(1);
         }
     }
 }

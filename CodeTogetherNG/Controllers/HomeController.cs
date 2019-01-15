@@ -1,10 +1,8 @@
 ﻿using CodeTogetherNG.Models;
 using CodeTogetherNG.Repositories;
-using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
 using System.Diagnostics;
 
 namespace CodeTogetherNG.Controllers
@@ -27,8 +25,6 @@ namespace CodeTogetherNG.Controllers
 
         public IActionResult About()
         {
-           
-
             return View();
         }
 
@@ -60,7 +56,6 @@ namespace CodeTogetherNG.Controllers
             return ProjectsGrid();
         }
 
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -70,7 +65,6 @@ namespace CodeTogetherNG.Controllers
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
 
         public IActionResult ProjectsGrid()
         {
