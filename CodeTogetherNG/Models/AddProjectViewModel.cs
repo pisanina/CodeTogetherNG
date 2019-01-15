@@ -13,7 +13,7 @@ namespace CodeTogetherNG.Models
         [Display(Name = "Description")]
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "Description is required.")]
-        [MinLength(20, ErrorMessage = "Description has a maximum length of 20.")]
+        [MinLength(20, ErrorMessage = "Description has a minimum length of 20.")]
         [MaxLength(1000, ErrorMessage = "Description has a maximum length of 1000.")]
         public string Description { get; set; }
     }
