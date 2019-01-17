@@ -14,6 +14,16 @@
         </tr>
     </thead>
     <tbody>
+        <form asp-controller="Home" asp-action="ProjectGrid">
+            <p>
+                Search: <input type="text" name="Search" Id="SearchInput">
+                <input type="submit" value="Search" Id="SearchButton" />
+            </p>
+        </form>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
         @foreach (var item in Model)
         {
             <tr>

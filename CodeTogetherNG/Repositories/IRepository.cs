@@ -7,9 +7,8 @@ namespace CodeTogetherNG.Repositories
     public interface IRepository
     {
         IEnumerable<ProjectsGridViewModel> AllProjects();
-
+        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind);
         void NewProject(AddProjectViewModel AddProject);
-
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
     }
 }

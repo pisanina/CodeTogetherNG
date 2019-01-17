@@ -46,5 +46,15 @@ namespace CodeTogetherNG.Repositories
                         new { T = AddProject.Title, D = AddProject.Description });
             }
         }
+
+        public IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind)
+        {
+            using (SqlConnection SQLConnect =
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Search_Project @ToFind=@S", new { S = ToFind });
+                return Grid;
+            }
+        }
     }
 }
