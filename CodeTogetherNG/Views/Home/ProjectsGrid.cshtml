@@ -13,23 +13,32 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        <form asp-controller="Home" asp-action="ProjectGrid">
-            <p>
-                Search: <input type="text" name="Search" Id="SearchInput">
-                <input type="submit" value="Search" Id="SearchButton" />
-            </p>
-        </form>
+
+    <form asp-controller="Home" asp-action="ProjectGrid" method="get">
+        <p>
+            <input type="text" name="Search" Id="SearchInput" placeholder="Search">
+            <button class="btn btn-default btn-sm" type="submit" class="btn btn-default" aria-label="Left Align">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </p>
+    </form>
+    <tr>
+        <th style="text-align:center">Details</th>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>Title</th>
-            <th>Description</th>
+            <td style="text-align:center">
+                <a asp-controller="Home"
+                   asp-action="ProjectDetails"
+                   asp-route-id="@item.ID">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                </a>
+            </td>
+            <td> @item.Title </td>
+            <td> @item.Description </td>
         </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td> @item.Title </td>
-                <td> @item.Description </td>
-            </tr>
-        }
-    </tbody>
+    }
 </table>

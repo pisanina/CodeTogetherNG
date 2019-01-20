@@ -10,5 +10,6 @@ namespace CodeTogetherNG.Repositories
         IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind);
         void NewProject(AddProjectViewModel AddProject);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
+        ProjectDetailsViewModel Project_Details(int IdToFind);
     }
 }

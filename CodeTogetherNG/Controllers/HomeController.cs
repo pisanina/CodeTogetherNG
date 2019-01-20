@@ -73,12 +73,20 @@ namespace CodeTogetherNG.Controllers
             return View("ProjectsGrid", repo.AllProjects());
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult ProjectGrid(string Search)
         {
             ViewData["Message"] = "Grid Of Projects";
 
             return View ("ProjectsGrid", repo.SearchProject(Search));
+        }
+
+        [HttpGet]
+        public IActionResult ProjectDetails(int Id)
+        {
+            ViewData["Message"] = "Project Details";
+
+            return View("ProjectDetails", repo.Project_Details(Id));
         }
     }
 } 

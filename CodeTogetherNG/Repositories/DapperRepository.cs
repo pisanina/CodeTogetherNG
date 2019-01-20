@@ -56,5 +56,15 @@ namespace CodeTogetherNG.Repositories
                 return Grid;
             }
         }
+
+        public ProjectDetailsViewModel Project_Details(int IdToFind)
+        {
+            using (SqlConnection SQLConnect =
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var Grid = SQLConnect.QuerySingle<ProjectDetailsViewModel>("Exec Project_Details @FindId=@Id", new { Id = IdToFind });
+                return Grid;
+            }
+        }
     }
 }
