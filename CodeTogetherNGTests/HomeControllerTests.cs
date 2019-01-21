@@ -26,7 +26,7 @@ namespace CodeTogetherNGTests
         public void CreateControllerForTests()
         {
             //podstawiamy faki pod dependencies
-            _config     = A.Fake<IConfiguration>();
+            _config = A.Fake<IConfiguration>();
             _repository = A.Fake<IRepository>();
 
             //tworzymy controlera do trstow z fakami
@@ -123,7 +123,7 @@ namespace CodeTogetherNGTests
         public void DetailsViewTest()
         {
             ProjectDetailsViewModel project = new ProjectDetailsViewModel
-            { 
+            {
                 ID          = 1,
                 Title       = "unit test for Search project title ",
                 Description = "unit test for Search project description"
@@ -161,8 +161,8 @@ namespace CodeTogetherNGTests
 
             var result = _homeController.ProjectGrid("Search");
 
-            //A.CallTo(() =>
-            //   _repository.SearchProject("Search")).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() =>
+               _repository.SearchProject("Search")).MustHaveHappened(Repeated.Exactly.Once);
 
             var viewResult = (ViewResult)result;
             Assert.AreEqual("ProjectsGrid", viewResult.ViewName);
