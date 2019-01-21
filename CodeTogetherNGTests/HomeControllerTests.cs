@@ -26,7 +26,7 @@ namespace CodeTogetherNGTests
         public void CreateControllerForTests()
         {
             //podstawiamy faki pod dependencies
-            _config = A.Fake<IConfiguration>();
+            _config     = A.Fake<IConfiguration>();
             _repository = A.Fake<IRepository>();
 
             //tworzymy controlera do trstow z fakami
@@ -40,7 +40,7 @@ namespace CodeTogetherNGTests
             //AddProject metoda wymaga parametru AddProjectViewModel, wiec tworzymy jakeigos dla testow
             AddProjectViewModel addProjectViewModel = new AddProjectViewModel
             {
-                Title = "unit test title",
+                Title       = "unit test title",
                 Description = "unit test description"
             };
             //tworzymy sztuczna liste projektow, by unit test nie probowal laczyc sie z baza danych. Nie chcemy testowac poalczenia do bazy danych czy bazy danych. To unit test tylko dla controllera. I jedynie dla kontrollera. Wiec wszystko inne musi byc mockniete.
@@ -88,7 +88,7 @@ namespace CodeTogetherNGTests
             {
                 new ProjectsGridViewModel
                 {
-                    Title = "first unit test project title",
+                    Title       = "first unit test project title",
                     Description = "First unit test project description"
                 }
             };
@@ -123,7 +123,7 @@ namespace CodeTogetherNGTests
         public void DetailsViewTest()
         {
             ProjectDetailsViewModel project = new ProjectDetailsViewModel
-            {
+            { 
                 ID          = 1,
                 Title       = "unit test for Search project title ",
                 Description = "unit test for Search project description"
@@ -142,6 +142,31 @@ namespace CodeTogetherNGTests
             var viewResult = (ViewResult)result;
             Assert.AreEqual("ProjectDetails", viewResult.ViewName);
             Assert.AreEqual(project, viewResult.Model);
+        }
+
+        [Test]
+        public void SearchTest()
+        {
+            List<ProjectsGridViewModel> projectList = new List<ProjectsGridViewModel>
+            {
+                new ProjectsGridViewModel
+                {
+                    Title       = "unit test for Search project title ",
+                    Description = "unit test for Search project description"
+                }
+            };
+
+            A.CallTo(() =>
+            _repository.SearchProject(A<string>.That.Matches(i => i == "Search"))).Returns(projectList);
+
+            var result = _homeController.ProjectGrid("Search");
+
+            //A.CallTo(() =>
+            //   _repository.SearchProject("Search")).MustHaveHappened(Repeated.Exactly.Once);
+
+            var viewResult = (ViewResult)result;
+            Assert.AreEqual("ProjectsGrid", viewResult.ViewName);
+            Assert.AreEqual(projectList, viewResult.Model);
         }
     }
 }
