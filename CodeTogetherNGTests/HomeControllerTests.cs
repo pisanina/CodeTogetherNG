@@ -118,5 +118,30 @@ namespace CodeTogetherNGTests
             A.CallTo(() =>
               _repository.ErrorsLog(A<IExceptionHandlerPathFeature>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Test]
+        public void DetailsViewTest()
+        {
+            ProjectDetailsViewModel project = new ProjectDetailsViewModel
+            {
+                ID          = 1,
+                Title       = "unit test for Search project title ",
+                Description = "unit test for Search project description"
+            };
+
+            A.CallTo(() =>
+              _repository.Project_Details(A<int>.That.Matches(i => i == 1))).Returns(project);
+
+            //Act
+            var result = _homeController.ProjectDetails(1);
+
+            //Assert
+            A.CallTo(() =>
+              _repository.Project_Details(1)).MustHaveHappened(Repeated.Exactly.Once);
+
+            var viewResult = (ViewResult)result;
+            Assert.AreEqual("ProjectDetails", viewResult.ViewName);
+            Assert.AreEqual(project, viewResult.Model);
+        }
     }
 }
