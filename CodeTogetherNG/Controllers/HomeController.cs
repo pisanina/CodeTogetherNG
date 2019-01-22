@@ -8,11 +8,11 @@ namespace CodeTogetherNG.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository repo;
+        private readonly IRepository _repo;
 
         public HomeController(IRepository repo)
         {
-            this.repo = repo;
+            this._repo = repo;
         }
 
         public ViewResult Index()
@@ -40,7 +40,7 @@ namespace CodeTogetherNG.Controllers
         {
             var exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
-            repo.ErrorsLog(exceptionFeature);
+            _repo.ErrorsLog(exceptionFeature);
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
