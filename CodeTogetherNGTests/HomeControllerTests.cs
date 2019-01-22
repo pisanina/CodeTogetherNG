@@ -15,10 +15,9 @@ namespace CodeTogetherNGTests
     public class HomeControllerTests
     {
         //deklarujemy controlera ktorego bedziemy testowac
+        private ProjectController _projectController;
         private HomeController _homeController;
-
         //deklaracje dependencies controllera
-        private IConfiguration _config;
 
         private IRepository _repository;
 
@@ -26,11 +25,11 @@ namespace CodeTogetherNGTests
         public void CreateControllerForTests()
         {
             //podstawiamy faki pod dependencies
-            _config = A.Fake<IConfiguration>();
             _repository = A.Fake<IRepository>();
 
             //tworzymy controlera do trstow z fakami
-            _homeController = new HomeController(_config, _repository);
+            _projectController = new ProjectController(_repository);
+            _homeController = new HomeController(_repository);
         }
 
         [Test]
@@ -59,7 +58,7 @@ namespace CodeTogetherNGTests
 
             //Act - druga faza unit testu
             //wykonujemy metode ktora testujemy
-            var result = _homeController.AddProject(addProjectViewModel);
+            var result = _projectController.AddProject(addProjectViewModel);
 
             //Assert - trzecia faza unit testu - weryfikacja
             //weryfikujemy ze metoda NewProject faka dla repository byla uruchomiona z paramterem ktory jest rowny zmiennej addProjectViewModel. I zostala uruchomiona tylko raz.
@@ -96,7 +95,7 @@ namespace CodeTogetherNGTests
                 _repository.AllProjects()).Returns(projectList);
 
             //ACT
-            var result = _homeController.ProjectsGrid();
+            var result = _projectController.ProjectsGrid();
 
             //Assert
 
@@ -133,7 +132,7 @@ namespace CodeTogetherNGTests
               _repository.Project_Details(A<int>.That.Matches(i => i == 1))).Returns(project);
 
             //Act
-            var result = _homeController.ProjectDetails(1);
+            var result = _projectController.ProjectDetails(1);
 
             //Assert
             A.CallTo(() =>
@@ -159,7 +158,7 @@ namespace CodeTogetherNGTests
             A.CallTo(() =>
             _repository.SearchProject(A<string>.That.Matches(i => i == "Search"))).Returns(projectList);
 
-            var result = _homeController.ProjectGrid("Search");
+            var result = _projectController.ProjectGrid("Search");
 
             A.CallTo(() =>
                _repository.SearchProject("Search")).MustHaveHappened(Repeated.Exactly.Once);
