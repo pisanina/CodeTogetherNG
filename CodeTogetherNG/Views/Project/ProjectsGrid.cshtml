@@ -13,10 +13,12 @@
             <th></th>
         </tr>
     </thead>
+@if (Model.Count() > 0)
+{
 
     <form asp-controller="Project" asp-action="ProjectGrid" method="get">
         <p>
-            <input type="text" name="Search" Id="SearchInput" placeholder="Search">
+            <input type="text" name="Search" Id="SearchInput" placeholder="Search" maxlength=50 autofocus>
             <button class="btn btn-default btn-sm" type="submit" class="btn btn-default" aria-label="Left Align" id="SearchButton">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             </button>
@@ -41,4 +43,15 @@
             <td> @item.Description </td>
         </tr>
     }
+}
+else
+    {
+        <div class="jumbotron" align="center">
+            <h1>Sorry, there is no match.<br>
+            <a class="btn btn-primary btn-lg" href="https://localhost:44362/Project/ProjectsGrid" 
+               role="button">Please try again.</a>
+            </h1>
+        </div>
+    }
+
 </table>
