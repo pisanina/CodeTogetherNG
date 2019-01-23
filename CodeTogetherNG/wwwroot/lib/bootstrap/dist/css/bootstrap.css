@@ -116,6 +116,7 @@ textarea {
   margin: 0;
   font: inherit;
   color: inherit;
+
 }
 button {
   overflow: visible;
@@ -4963,11 +4964,12 @@ a.badge:focus {
   background-color: #eee;
 }
     .jumbotron h1,
-    .jumbotron .h1 {
+    .jumbotron .h1,
+    .jumbotron h2,
+    .jumbotron .h2 {
         color: inherit;
         margin-bottom: 10px;
         text-align: center;
-
     }
     .jumbotron p {
         margin-bottom: 15px;
@@ -4999,14 +5001,12 @@ a.badge:focus {
   }
   .jumbotron h1,
   .jumbotron .h1 {
-    font-size: 63px;
+    font-size: 60px;
   }
-    .jumbotron h2,
-    .jumbotron .h2 {
-        font-size: 48px;
-        margin-bottom: 10px;
-        text-align: center;
-    }
+  .jumbotron h2,
+  .jumbotron .h2 {
+    font-size: 48px;
+   }
 .thumbnail {
   display: block;
   padding: 4px;
