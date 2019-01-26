@@ -66,5 +66,15 @@ namespace CodeTogetherNG.Repositories
                 return Grid;
             }
         }
+
+        public IEnumerable<string> Project_Technology()
+        {
+            using (SqlConnection SQLConnect =
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var TechnologyList = SQLConnect.Query<string>("Exec Technology_List");
+                return TechnologyList;
+            }
+        }
     }
 }

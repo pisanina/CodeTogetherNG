@@ -116,7 +116,6 @@ textarea {
   margin: 0;
   font: inherit;
   color: inherit;
-
 }
 button {
   overflow: visible;
@@ -4963,20 +4962,15 @@ a.badge:focus {
   color: inherit;
   background-color: #eee;
 }
-    .jumbotron h1,
-    .jumbotron .h1,
-    .jumbotron h2,
-    .jumbotron .h2 {
-        color: inherit;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-    .jumbotron p {
-        margin-bottom: 15px;
-        font-size: 21px;
-        font-weight: 200;
-    }
-
+.jumbotron h1,
+.jumbotron .h1 {
+  color: inherit;
+}
+.jumbotron p {
+  margin-bottom: 15px;
+  font-size: 21px;
+  font-weight: 200;
+}
 .jumbotron > hr {
   border-top-color: #d5d5d5;
 }
@@ -5001,12 +4995,9 @@ a.badge:focus {
   }
   .jumbotron h1,
   .jumbotron .h1 {
-    font-size: 60px;
+    font-size: 63px;
   }
-  .jumbotron h2,
-  .jumbotron .h2 {
-    font-size: 48px;
-   }
+}
 .thumbnail {
   display: block;
   padding: 4px;

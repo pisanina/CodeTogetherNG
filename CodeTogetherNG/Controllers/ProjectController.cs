@@ -15,6 +15,7 @@ namespace CodeTogetherNG.Controllers
 
         public ViewResult AddProject()
         {
+            ViewBag.TechList = repo.Project_Technology();
             return View();
         }
 

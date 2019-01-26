@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CodeTogetherNG.Models
 {
@@ -16,5 +17,7 @@ namespace CodeTogetherNG.Models
         [MinLength(20, ErrorMessage = "Description has a minimum length of 20.")]
         [MaxLength(1000, ErrorMessage = "Description has a maximum length of 1000.")]
         public string Description { get; set; }
+
+        public List<string> TechName { get; }
     }
 }

@@ -11,5 +11,6 @@ namespace CodeTogetherNG.Repositories
         void NewProject(AddProjectViewModel AddProject);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
         ProjectDetailsViewModel Project_Details(int IdToFind);
+        IEnumerable<string> Project_Technology();
     }
 }
