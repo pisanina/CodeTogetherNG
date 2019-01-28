@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
 
-        <form asp-action="AddProject">
+        <form asp-controller="Project" asp-action="AddProject" method="post">
             <div class="col-md-6">
                 <div class="d-inline">
                     <div class="form-group">
@@ -27,11 +27,11 @@
             </div>
 
             <div class="col-md-6">
-                <select name="Technology" size="7" multiple>
+                <select name="TechList" size="7" multiple>
 
                     @foreach (var item in ViewBag.TechList)
                     {
-                        <option value=@item>@item</option>
+                        <option value=@item.Id>@item.TechName</option>
                     }
                 </select>
             </div>
@@ -40,8 +40,6 @@
                 <input type="submit" value="Create" class="btn btn-light" id="Create" />
             </div>
         </form>
-
-    </div>
 </div>
 
 @section Scripts {

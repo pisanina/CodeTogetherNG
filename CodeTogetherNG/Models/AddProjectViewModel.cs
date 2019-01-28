@@ -18,6 +18,6 @@ namespace CodeTogetherNG.Models
         [MaxLength(1000, ErrorMessage = "Description has a maximum length of 1000.")]
         public string Description { get; set; }
 
-        public List<string> TechName { get; }
+        public List<int> TechList { get; set; }
     }
 }

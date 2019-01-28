@@ -3,7 +3,10 @@ using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+
 
 namespace CodeTogetherNG.Repositories
 {
@@ -38,12 +41,25 @@ namespace CodeTogetherNG.Repositories
 
         public void NewProject(AddProjectViewModel AddProject)
         {
+            DataTable tbTechList = new DataTable();
+            tbTechList.Columns.Add("Id", typeof(int));
+           
+
+
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                // SQLConnect.Execute("Insert into Project Values ('"+AddProject.Title+"','"+AddProject.Description+"')");
-                SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D",
-                        new { T = AddProject.Title, D = AddProject.Description });
+            { if ( AddProject.TechList != null)
+                {
+                    AddProject.TechList.ForEach(x => tbTechList.Rows.Add(x));
+
+                    SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @TechList=@L",
+                            new { T = AddProject.Title, D = AddProject.Description, L = tbTechList.AsTableValuedParameter("TechnologyList") });
+                }
+                else
+                {
+                    SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D",
+                              new { T = AddProject.Title, D = AddProject.Description });
+                }
             }
         }
 
@@ -67,12 +83,12 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public IEnumerable<string> Project_Technology()
+        public IEnumerable<TechnologyViewModel> Project_Technology()
         {
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var TechnologyList = SQLConnect.Query<string>("Exec Technology_List");
+                var TechnologyList = SQLConnect.Query<TechnologyViewModel>("Exec Technology_List");
                 return TechnologyList;
             }
         }
