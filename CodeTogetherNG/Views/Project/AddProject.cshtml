@@ -20,14 +20,14 @@
                     </div>
                     <div class="form-group">
                         <textarea asp-for="Description" class="form-control" id="Description"
-                                  placeholder="Please insert description"></textarea>
+                               placeholder="Please insert description" rows="5" style="resize:vertical"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <select name="TechList" size="7" multiple>
+                <select name="TechList" id="TechList" size="7" multiple>
 
                     @foreach (var item in ViewBag.TechList)
                     {
