@@ -1,0 +1,30 @@
+﻿@model List<CodeTogetherNG.Models.TechnologyViewModel>
+
+@{
+    ViewData["Title"] = "TechnologiesList";
+}
+
+<h2>List of Technologies</h2>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <table class="table-bordered table-striped" id="TechTable" style="font-size: 20px;">
+            
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TechName</td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

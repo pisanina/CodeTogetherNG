@@ -43,5 +43,11 @@ namespace CodeTogetherNG.Controllers
         {
             return View("ProjectDetails", repo.Project_Details(Id));
         }
+
+        [HttpGet]
+        public ViewResult TechnologiesList()
+        {
+            return View("TechnologiesList", repo.Project_Technology());
+        }
     }
 }
