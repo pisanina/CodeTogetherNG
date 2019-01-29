@@ -23,17 +23,17 @@ namespace CodeTogetherNG.Controllers
         public ViewResult AddProject(AddProjectViewModel AddProject)
         {
             repo.NewProject(AddProject);
-            return ProjectsGrid();
+            return ShowProjectsGrid();
         }
 
 
-        public ViewResult ProjectsGrid()
+        public ViewResult ShowProjectsGrid()
         {
             return View("ProjectsGrid", repo.AllProjects());
         }
 
         [HttpGet]
-        public ViewResult ProjectGrid(string Search)
+        public ViewResult SearchProjectGrid(string Search)
         {
             return View("ProjectsGrid", repo.SearchProject(Search));
         }

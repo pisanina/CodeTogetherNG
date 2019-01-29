@@ -90,7 +90,7 @@ namespace CodeTogetherNGTests
                 _repository.AllProjects()).Returns(projectList);
 
             //ACT
-            var result = _projectController.ProjectsGrid();
+            var result = _projectController.ShowProjectsGrid();
 
             //Assert
 
@@ -142,7 +142,7 @@ namespace CodeTogetherNGTests
             A.CallTo(() =>
             _repository.SearchProject(A<string>.That.Matches(i => i == "Search"))).Returns(projectList);
 
-            var result = _projectController.ProjectGrid("Search");
+            var result = _projectController.SearchProjectGrid("Search");
 
             A.CallTo(() =>
                _repository.SearchProject("Search")).MustHaveHappened(Repeated.Exactly.Once);
