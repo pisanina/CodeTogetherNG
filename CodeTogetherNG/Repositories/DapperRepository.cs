@@ -39,7 +39,7 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public void NewProject(AddProjectViewModel AddProject)
+        public void NewProject(AddProjectViewModel addProject)
         {
             DataTable tbTechList = new DataTable();
             tbTechList.Columns.Add("Id", typeof(int));
@@ -48,37 +48,37 @@ namespace CodeTogetherNG.Repositories
 
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            { if ( AddProject.TechList != null)
+            { if ( addProject.TechList != null)
                 {
-                    AddProject.TechList.ForEach(x => tbTechList.Rows.Add(x));
+                    addProject.TechList.ForEach(x => tbTechList.Rows.Add(x));
 
                     SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @TechList=@L",
-                            new { T = AddProject.Title, D = AddProject.Description, L = tbTechList.AsTableValuedParameter("TechnologyList") });
+                            new { T = addProject.Title, D = addProject.Description, L = tbTechList.AsTableValuedParameter("TechnologyList") });
                 }
                 else
                 {
                     SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D",
-                              new { T = AddProject.Title, D = AddProject.Description });
+                              new { T = addProject.Title, D = addProject.Description });
                 }
             }
         }
 
-        public IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind)
+        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind)
         {
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Project_Search @ToFind=@S", new { S = ToFind });
+                var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Project_Search @ToFind=@S", new { S = toFind });
                 return Grid;
             }
         }
 
-        public ProjectDetailsViewModel Project_Details(int IdToFind)
+        public ProjectDetailsViewModel Project_Details(int idToFind)
         {
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var Grid = SQLConnect.QuerySingle<ProjectDetailsViewModel>("Exec Project_Details @FindId=@Id", new { Id = IdToFind });
+                var Grid = SQLConnect.QuerySingle<ProjectDetailsViewModel>("Exec Project_Details @FindId=@Id", new { Id = idToFind });
                 return Grid;
             }
         }

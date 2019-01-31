@@ -20,12 +20,25 @@ namespace CodeTogetherNG.Controllers
         }
 
         [HttpPost]
-        public ViewResult AddProject(AddProjectViewModel AddProject)
+        public ViewResult AddProject(AddProjectViewModel addProject)
         {
-            repo.NewProject(AddProject);
+            try
+            {
+                repo.NewProject(addProject);
+            }
+            catch (System.Exception e)
+            {
+                if (e.Message.Contains("Violation of UNIQUE KEY constraint 'UC_Project_Title'."))
+                {
+                    System.Console.WriteLine("Error " + e);
+                    ModelState.AddModelError("Title", "Sorry there is alredy project with that title");
+
+                    return AddProject();
+                }
+                else throw;
+            }
             return ShowProjectsGrid();
         }
-
 
         public ViewResult ShowProjectsGrid()
         {
@@ -33,15 +46,15 @@ namespace CodeTogetherNG.Controllers
         }
 
         [HttpGet]
-        public ViewResult SearchProjectGrid(string Search)
+        public ViewResult SearchProjectGrid(string search)
         {
-            return View("ProjectsGrid", repo.SearchProject(Search));
+            return View("ProjectsGrid", repo.SearchProject(search));
         }
 
         [HttpGet]
-        public ViewResult ProjectDetails(int Id)
+        public ViewResult ProjectDetails(int id)
         {
-            return View("ProjectDetails", repo.Project_Details(Id));
+            return View("ProjectDetails", repo.Project_Details(id));
         }
 
         [HttpGet]
