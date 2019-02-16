@@ -7,7 +7,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-
 namespace CodeTogetherNG.Repositories
 {
     public class DapperRepository : IRepository
@@ -43,12 +42,11 @@ namespace CodeTogetherNG.Repositories
         {
             DataTable tbTechList = new DataTable();
             tbTechList.Columns.Add("Id", typeof(int));
-           
-
 
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            { if ( addProject.TechList != null)
+            {
+                if (addProject.TechList != null)
                 {
                     addProject.TechList.ForEach(x => tbTechList.Rows.Add(x));
 
@@ -78,8 +76,9 @@ namespace CodeTogetherNG.Repositories
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var Grid = SQLConnect.QuerySingle<ProjectDetailsViewModel>("Exec Project_Details @FindId=@Id", new { Id = idToFind });
-                return Grid;
+                var Grids = SQLConnect.Query<ProjectEntity>("Exec Project_Details @FindId=@Id", new { Id = idToFind }).ToList();
+                return MappingDataToProjectDetails(Grids);
+                
             }
         }
 
@@ -91,6 +90,37 @@ namespace CodeTogetherNG.Repositories
                 var TechnologyList = SQLConnect.Query<TechnologyViewModel>("Exec Technology_List");
                 return TechnologyList;
             }
+        }
+
+        public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid)
+        {
+            if ( grid != null && grid.Any())
+            {
+                ProjectDetailsViewModel  ProjectDetails = new ProjectDetailsViewModel
+                {
+                    ID = grid[0].ID,
+                    Title = grid[0].Title,
+                    Description = grid[0].Description,
+                    CreationDate = grid[0].CreationDate,
+                    Technologies = new List<TechnologyViewModel>()
+                };
+
+                foreach (var item in grid)
+                {
+                    if (item.TechnologyId != 0)
+                    {
+                        ProjectDetails.Technologies.Add(new TechnologyViewModel
+                        {
+                            Id = item.TechnologyId,
+                            TechName = item.TechName
+                        });
+                    }
+                    else break;
+                }
+
+                return ProjectDetails;
+            }
+            else return null;
         }
     }
 }

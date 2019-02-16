@@ -6,11 +6,12 @@ namespace CodeTogetherNG.Repositories
 {
     public interface IRepository
     {
-        IEnumerable<ProjectsGridViewModel> AllProjects();
-        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind);
         void NewProject(AddProjectViewModel AddProject);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
+        IEnumerable<ProjectsGridViewModel> AllProjects();
+        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind);
         ProjectDetailsViewModel Project_Details(int IdToFind);
         IEnumerable<TechnologyViewModel> Project_Technology();
+        ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid);
     }
 }

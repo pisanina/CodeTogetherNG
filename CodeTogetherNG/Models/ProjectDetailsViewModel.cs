@@ -11,5 +11,6 @@ namespace CodeTogetherNG.Models
         public string Title;
         public string Description;
         public DateTimeOffset CreationDate;
+        public List<TechnologyViewModel> Technologies;
     }
 }

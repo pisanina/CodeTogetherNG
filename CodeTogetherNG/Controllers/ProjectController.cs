@@ -30,9 +30,7 @@ namespace CodeTogetherNG.Controllers
             {
                 if (e.Message.Contains("Violation of UNIQUE KEY constraint 'UC_Project_Title'."))
                 {
-                    System.Console.WriteLine("Error " + e);
                     ModelState.AddModelError("Title", "Sorry there is alredy project with that title");
-
                     return AddProject();
                 }
                 else throw;
