@@ -51,7 +51,7 @@ namespace CodeTogetherNGTests
             var Details = _repository.MappingDataToProjectDetails(ListOfProjects);
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
-           
+
             Assert.AreEqual(2, Details.Technologies.Count);
             Assert.AreEqual(5, Details.Technologies[0].Id);
             Assert.AreEqual(3, Details.Technologies[1].Id);
@@ -60,7 +60,7 @@ namespace CodeTogetherNGTests
         }
 
         [Test]
-        public void MappingTestNotechnology()
+        public void MappingTestNoTechnology()
         {
             ProjectEntity ProjEntity1= new ProjectEntity
             {

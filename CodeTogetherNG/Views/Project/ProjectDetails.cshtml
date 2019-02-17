@@ -1,19 +1,16 @@
 ﻿@model CodeTogetherNG.Models.ProjectDetailsViewModel
-
 @{
     ViewData["Title"] = "ProjectDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2 id="ProjectDetailsPage">Project Details</h2>
 
-
 <style>
+
     input, select, textarea {
         max-width: 70%;
     }
 </style>
-
 <div class="form-group">
     <label asp-for="Title" class="control-label"></label>
     <input asp-for="Title" class="form-control" id="Title" ReadOnly="true" />
@@ -25,4 +22,21 @@
 <div class="form-group">
     <label asp-for="CreationDate" class="control-label"></label>
     <input asp-for="CreationDate" class="form-control" id="CreationDate" ReadOnly="true" />
+</div>
+<div class="form-group">
+    <label asp-for="Technologies" class="control-label"></label>
+
+    <select name="TechList" id="TechList" size="7" multiple disabled>
+
+        @foreach (var item in ViewBag.TechList)
+
+        {
+            if ((from x in Model.Technologies where x.Id == @item.Id select x).Any())
+            { <option value=@item.Id selected>@item.TechName</option> }
+
+            else
+            { <option value=@item.Id>@item.TechName</option> }
+
+        }
+    </select>
 </div>
