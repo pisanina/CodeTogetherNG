@@ -29,14 +29,12 @@
     <select name="TechList" id="TechList" size="7" multiple disabled>
 
         @foreach (var item in ViewBag.TechList)
-
         {
             if ((from x in Model.Technologies where x.Id == @item.Id select x).Any())
             { <option value=@item.Id selected>@item.TechName</option> }
 
             else
             { <option value=@item.Id>@item.TechName</option> }
-
         }
     </select>
 </div>

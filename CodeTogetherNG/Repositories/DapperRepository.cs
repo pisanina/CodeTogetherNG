@@ -1,4 +1,5 @@
 ﻿using CodeTogetherNG.Models;
+using CodeTogetherNG.Repositories.Entities;
 using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +24,49 @@ namespace CodeTogetherNG.Repositories
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Projects_Get");
-                return Grid;
+                var grid = SQLConnect.Query<ProjectGridEntity>("Exec Projects_Get");
+                return MappingDataToProjectsGrid(grid);
             }
+        }
+
+        public IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid)
+        {
+            var list = new List<ProjectsGridViewModel>();
+
+            if (grid != null)
+            {
+                foreach (var item in grid)
+                {
+                    ProjectsGridViewModel project;
+
+                    if (list.Any(a => a.ID == item.ID))
+                    {
+                        project = list.Find(a => a.ID == item.ID);
+                    }
+                    else
+                    {
+                        project = new ProjectsGridViewModel
+                        {
+                            ID = item.ID,
+                            Title = item.Title,
+                            Description = item.Description,
+                            Technologies = new List<TechnologyViewModel>()
+                        };
+                        list.Add(project);
+                    }
+                    if (item.TechnologyId != 0)
+                    {
+                        project.Technologies.Add(new TechnologyViewModel
+                        {
+                            TechName = item.TechName,
+                            Id = item.TechnologyId
+                        });
+                    }
+
+                }
+            }
+            
+            return list;
         }
 
         public void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature)
@@ -78,7 +119,6 @@ namespace CodeTogetherNG.Repositories
             {
                 var Grids = SQLConnect.Query<ProjectEntity>("Exec Project_Details @FindId=@Id", new { Id = idToFind }).ToList();
                 return MappingDataToProjectDetails(Grids);
-                
             }
         }
 
@@ -94,7 +134,7 @@ namespace CodeTogetherNG.Repositories
 
         public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid)
         {
-            if ( grid != null && grid.Any())
+            if (grid != null && grid.Any())
             {
                 ProjectDetailsViewModel  ProjectDetails = new ProjectDetailsViewModel
                 {
