@@ -107,8 +107,8 @@ namespace CodeTogetherNG.Repositories
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var Grid = SQLConnect.Query<ProjectsGridViewModel>("Exec Project_Search @ToFind=@S", new { S = toFind });
-                return Grid;
+                var grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S", new { S = toFind });
+                return MappingDataToProjectsGrid(grid);
             }
         }
 
