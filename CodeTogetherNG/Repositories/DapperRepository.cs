@@ -102,12 +102,31 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind)
+        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] TechList)
         {
+            DataTable tbTechList = new DataTable();
+            tbTechList.Columns.Add("Id", typeof(int));
+
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S", new { S = toFind });
+                IEnumerable<ProjectGridEntity> grid;
+                if (TechList!=null && TechList.Count()>0)
+                {
+                    for (int i = 0; i < TechList.Count(); i++)
+                    {
+                        tbTechList.Rows.Add(TechList[i]);
+                    }
+                   
+
+                    grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S, @TechList=@L",
+                        new { S = toFind, L = tbTechList.AsTableValuedParameter("TechnologyList") });
+                }
+                else
+                {
+                     grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S", new { S = toFind });
+
+                }
                 return MappingDataToProjectsGrid(grid);
             }
         }

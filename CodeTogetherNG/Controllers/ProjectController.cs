@@ -40,13 +40,15 @@ namespace CodeTogetherNG.Controllers
 
         public ViewResult ShowProjectsGrid()
         {
+            ViewBag.TechList = repo.Project_Technology();
             return View("ProjectsGrid", repo.AllProjects());
         }
 
         [HttpGet]
-        public ViewResult SearchProjectGrid(string search)
+        public ViewResult SearchProjectGrid(string search, int[] TechList)
         {
-            return View("ProjectsGrid", repo.SearchProject(search));
+            ViewBag.TechList = repo.Project_Technology();
+            return View("ProjectsGrid", repo.SearchProject(search, TechList));
         }
 
         [HttpGet]

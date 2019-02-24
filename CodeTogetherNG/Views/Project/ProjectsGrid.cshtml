@@ -21,9 +21,18 @@
         <p>
             <input class="form-control" type="text" name="Search" Id="SearchInput" autofocus
                    placeholder="Search" maxlength=50 minlength=2 required />
-            <button class="btn btn-default" type="submit" aria-label="Left Align" id="SearchButton">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            </button>
+            <div>
+                <button class="btn btn-default" type="submit" aria-label="Left Align" id="SearchButton">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+                <select name="TechList" id="TechList" size="4" multiple>
+
+                    @foreach (var item in ViewBag.TechList)
+                    {
+                        <option value=@item.Id>@item.TechName</option>
+                    }
+                </select>
+            </div>
         </p>
     </form>
     <hr />
@@ -51,7 +60,6 @@
                                     @(item.Technologies[i].TechName + ", ");
                                 }
                             }
-
                         </small>
                     </div>
                     <p> @item.Description </p>
