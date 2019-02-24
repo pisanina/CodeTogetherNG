@@ -32,7 +32,7 @@ namespace CodeTogetherNGTests
                 Description = "Very long Description ",
                 TechName = "C#",
                 TechnologyId = 5,
-                CreationDate = DateTime.Today
+                CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
             ProjectEntity ProjEntity2= new ProjectEntity
@@ -42,7 +42,7 @@ namespace CodeTogetherNGTests
                 Description = "Very long Description ",
                 TechName = "C",
                 TechnologyId = 3,
-                CreationDate = DateTime.Today
+                CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();
@@ -70,7 +70,7 @@ namespace CodeTogetherNGTests
                 Description = "Very long Description ",
                 //TechName = "C#",
                 //TechnologyId = 5,
-                CreationDate = DateTime.Today
+                CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();

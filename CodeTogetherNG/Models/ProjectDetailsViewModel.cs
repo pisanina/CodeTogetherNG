@@ -10,7 +10,7 @@ namespace CodeTogetherNG.Models
         public int ID;
         public string Title;
         public string Description;
-        public DateTimeOffset CreationDate;
+        public string CreationDate;
         public List<TechnologyViewModel> Technologies;
     }
 }
