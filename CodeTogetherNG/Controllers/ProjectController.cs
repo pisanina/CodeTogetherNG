@@ -1,5 +1,6 @@
 ﻿using CodeTogetherNG.Models;
 using CodeTogetherNG.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeTogetherNG.Controllers
@@ -19,12 +20,16 @@ namespace CodeTogetherNG.Controllers
             return View();
         }
 
+        
+
         [HttpPost]
         public ViewResult AddProject(AddProjectViewModel addProject)
         {
+            var userName = this.User.Identity.Name;
+
             try
             {
-                repo.NewProject(addProject);
+                repo.NewProject(addProject, userName);
             }
             catch (System.Exception e)
             {

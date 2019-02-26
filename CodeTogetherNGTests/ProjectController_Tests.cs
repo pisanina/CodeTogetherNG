@@ -59,7 +59,7 @@ namespace CodeTogetherNGTests
             //weryfikujemy ze metoda NewProject faka dla repository byla uruchomiona z paramterem ktory jest rowny zmiennej addProjectViewModel. I zostala uruchomiona tylko raz.
             A.CallTo(() =>
                 _repository.NewProject(A<AddProjectViewModel>.That.Matches(a =>
-                a == addProjectViewModel))).MustHaveHappened(Repeated.Exactly.Once);
+                a == addProjectViewModel), A<string>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
 
             //weryfikujemy ze metoda AllProjects faka dla repository byla uruchomiona. I zostala uruchomiona tylko raz.
             A.CallTo(() =>
