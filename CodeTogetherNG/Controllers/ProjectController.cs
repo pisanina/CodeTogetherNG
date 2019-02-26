@@ -25,7 +25,9 @@ namespace CodeTogetherNG.Controllers
         [HttpPost]
         public ViewResult AddProject(AddProjectViewModel addProject)
         {
-            var userName = this.User.Identity.Name;
+            string userName = string.Empty;
+            if(this.User!=null)
+                userName=this.User.Identity.Name;
 
             try
             {
