@@ -1,6 +1,6 @@
 ﻿using CodeTogetherNG.Models;
 using CodeTogetherNG.Repositories;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeTogetherNG.Controllers
@@ -14,20 +14,21 @@ namespace CodeTogetherNG.Controllers
             this.repo = repo;
         }
 
+        [Authorize]
         public ViewResult AddProject()
         {
             ViewBag.TechList = repo.Project_Technology();
             return View();
         }
 
-        
-
         [HttpPost]
+        [Authorize]
         public ViewResult AddProject(AddProjectViewModel addProject)
         {
             string userName = string.Empty;
-            if(this.User!=null)
-                userName=this.User.Identity.Name;
+
+            if (this.User != null)
+                userName = this.User.Identity.Name;
 
             try
             {
@@ -42,6 +43,7 @@ namespace CodeTogetherNG.Controllers
                 }
                 else throw;
             }
+
             return ShowProjectsGrid();
         }
 
