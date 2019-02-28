@@ -157,6 +157,7 @@ namespace CodeTogetherNG.Repositories
                 {
                     ID = grid[0].ID,
                     Title = grid[0].Title,
+                    OwnerName = grid[0].UserName,
                     Description = grid[0].Description,
                     CreationDate = grid[0].CreationDate,
                     Technologies = new List<TechnologyViewModel>()

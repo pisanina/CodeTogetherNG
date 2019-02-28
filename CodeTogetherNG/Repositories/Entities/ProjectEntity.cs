@@ -10,5 +10,6 @@ namespace CodeTogetherNG.Repositories.Entities
         public string TechName { get; set; }
         public int TechnologyId { get; set; }
         public string CreationDate { get; set; }
+        public string UserName { get; set; }
     }
 }

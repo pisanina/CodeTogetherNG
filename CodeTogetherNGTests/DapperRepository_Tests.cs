@@ -32,6 +32,7 @@ namespace CodeTogetherNGTests
                 Description = "Very long Description ",
                 TechName = "C#",
                 TechnologyId = 5,
+                UserName = "TestUser@a.com",
                 CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
@@ -42,6 +43,7 @@ namespace CodeTogetherNGTests
                 Description = "Very long Description ",
                 TechName = "C",
                 TechnologyId = 3,
+                UserName = "TestUser@a.com",
                 CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
@@ -52,6 +54,7 @@ namespace CodeTogetherNGTests
             var Details = _repository.MappingDataToProjectDetails(ListOfProjects);
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
+            Assert.AreEqual("TestUser@a.com", Details.OwnerName);
 
             Assert.AreEqual(2, Details.Technologies.Count);
             Assert.AreEqual(5, Details.Technologies[0].Id);
@@ -70,6 +73,7 @@ namespace CodeTogetherNGTests
                 Description = "Very long Description ",
                 //TechName = "C#",
                 //TechnologyId = 5,
+                UserName = "TestUser@a.com",
                 CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
@@ -100,7 +104,6 @@ namespace CodeTogetherNGTests
             Assert.Null(Details);
         }
 
-        
         [Test]
         public void Grid_MappingTestNoObject()
         {
@@ -115,7 +118,6 @@ namespace CodeTogetherNGTests
             var grid = _repository.MappingDataToProjectsGrid(emptyList);
             Assert.True(grid.Count() == 0);
         }
-
 
         [Test]
         public void Grid_MappingTestOneProjectTwoTechnologies()
@@ -132,7 +134,7 @@ namespace CodeTogetherNGTests
             };
 
             var project2 = new ProjectGridEntity
-            { 
+            {
                 ID = 1,
                 Title = "First program",
                 Description = "Something doing nothing",
@@ -151,22 +153,20 @@ namespace CodeTogetherNGTests
             list.Add(project2);
             list.Add(project3);
 
-
             var grid = _repository.MappingDataToProjectsGrid(list);
 
             var  firstProject = grid.First(a => a.ID == 1);
             var  secondProject = grid.First(a => a.ID == 2);
-            Assert.True(grid.Count()==2);
+            Assert.True(grid.Count() == 2);
             Assert.True(firstProject.Technologies.Count == 2);
-            Assert.True(firstProject.Technologies.First(a =>a.Id==3).TechName=="C");
-            Assert.True(firstProject.Technologies.First(a =>a.Id==5).TechName=="C#");
+            Assert.True(firstProject.Technologies.First(a => a.Id == 3).TechName == "C");
+            Assert.True(firstProject.Technologies.First(a => a.Id == 5).TechName == "C#");
             Assert.True(firstProject.Title == "First program");
             Assert.True(firstProject.Description == "Something doing nothing");
 
             Assert.True(grid.First(a => a.ID == 2).Technologies.Count == 0);
             Assert.True(secondProject.Title == "Second program");
             Assert.True(secondProject.Description == "Something doing nothing but slowly");
-
         }
     }
 }
