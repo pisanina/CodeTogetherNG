@@ -7,6 +7,7 @@ namespace CodeTogetherNG.Models
         public int ID;
         public string Title;
         public string Description;
+        public bool NewMembers;
         public List<TechnologyViewModel> Technologies;
         public string Search { get; set; }
     }

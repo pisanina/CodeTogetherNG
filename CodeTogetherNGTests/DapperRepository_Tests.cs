@@ -132,6 +132,7 @@ namespace CodeTogetherNGTests
                 Title = "First program",
                 Description = "Something doing nothing",
                 TechName = "C",
+                NewMembers = true,
                 TechnologyId = 3
             };
 
@@ -141,6 +142,7 @@ namespace CodeTogetherNGTests
                 Title = "First program",
                 Description = "Something doing nothing",
                 TechName = "C#",
+                NewMembers = true,
                 TechnologyId = 5
             };
 
@@ -165,10 +167,12 @@ namespace CodeTogetherNGTests
             Assert.True(firstProject.Technologies.First(a => a.Id == 5).TechName == "C#");
             Assert.True(firstProject.Title == "First program");
             Assert.True(firstProject.Description == "Something doing nothing");
+            Assert.True(firstProject.NewMembers == true);
 
             Assert.True(grid.First(a => a.ID == 2).Technologies.Count == 0);
             Assert.True(secondProject.Title == "Second program");
             Assert.True(secondProject.Description == "Something doing nothing but slowly");
+            Assert.True(secondProject.NewMembers == false);
         }
     }
 }

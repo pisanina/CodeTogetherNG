@@ -50,6 +50,7 @@ namespace CodeTogetherNG.Repositories
                             ID = item.ID,
                             Title = item.Title,
                             Description = item.Description,
+                            NewMembers = item.NewMembers,
                             Technologies = new List<TechnologyViewModel>()
                         };
                         list.Add(project);

@@ -62,7 +62,11 @@
                             }
                         </small>
                     </div>
-                    <p> @item.Description </p>
+                    <div class="flex">
+                        <p> @item.Description </p>
+                        @if (item.NewMembers)
+                        { <span class="glyphicon glyphicon-user" float:"right"></span> }
+                    </div>
                 </a>
             </div>
         }
