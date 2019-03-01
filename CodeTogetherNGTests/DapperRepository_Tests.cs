@@ -33,6 +33,7 @@ namespace CodeTogetherNGTests
                 TechName = "C#",
                 TechnologyId = 5,
                 UserName = "TestUser@a.com",
+                NewMembers = true,
                 CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
@@ -44,6 +45,7 @@ namespace CodeTogetherNGTests
                 TechName = "C",
                 TechnologyId = 3,
                 UserName = "TestUser@a.com",
+                NewMembers = true,
                 CreationDate = DateTime.Today.ToString("dd/MM/yyyy")
             };
 
