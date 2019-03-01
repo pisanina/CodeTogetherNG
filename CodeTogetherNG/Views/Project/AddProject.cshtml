@@ -24,22 +24,28 @@
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
-        </div>
+                <div class="form-check">
+                    <label asp-for="NewMembers" class="form-check-label"></label>
+                    <input asp-for="NewMembers" class="form-check-input ch" id="NewMembers" type="checkbox" />
+                    <span asp-validation-for="NewMembers" class="text-danger"></span>
+                </div>
+            
+            </div>
 
-        <div class="col-md-6">
-            <select name="TechList" id="TechList" size="7" multiple>
+            <div class="col-md-6">
+                <select name="TechList" id="TechList" size="7" multiple>
 
-                @foreach (var item in ViewBag.TechList)
-                {
-                    <option value=@item.Id>@item.TechName</option>
-                }
-            </select>
-        </div>
+                    @foreach (var item in ViewBag.TechList)
+                    {
+                        <option value=@item.Id>@item.TechName</option>
+                    }
+                </select>
+            </div>
 
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-light" id="Create" />
-        </div>
-    </form>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-light" id="Create" />
+            </div>
+</form>
 </div>
 
 @section Scripts {

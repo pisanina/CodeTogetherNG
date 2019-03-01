@@ -90,14 +90,14 @@ namespace CodeTogetherNG.Repositories
                 {
                     addProject.TechList.ForEach(x => tbTechList.Rows.Add(x));
 
-                    SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @TechList=@L, @UserName=@U",
+                    SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @TechList=@L, @UserName=@U, @NewMembers=@M",
                             new { T = addProject.Title, D = addProject.Description,
-                                L = tbTechList.AsTableValuedParameter("TechnologyList"), U = userName});
+                                L = tbTechList.AsTableValuedParameter("TechnologyList"), U = userName, M = addProject.NewMembers});
                 }
                 else
                 {
-                    SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @UserName=@U",
-                              new { T = addProject.Title, D = addProject.Description, U = userName});
+                    SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @UserName=@U, @NewMembers=@M",
+                              new { T = addProject.Title, D = addProject.Description, U = userName, M = addProject.NewMembers });
                 }
             }
         }

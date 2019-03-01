@@ -19,5 +19,8 @@ namespace CodeTogetherNG.Models
         public string Description { get; set; }
 
         public List<int> TechList { get; set; }
+
+        [Display(Name = "Looking for new members?")]
+        public bool NewMembers { get; set; }
     }
 }
