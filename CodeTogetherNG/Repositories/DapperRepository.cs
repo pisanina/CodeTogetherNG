@@ -92,8 +92,14 @@ namespace CodeTogetherNG.Repositories
                     addProject.TechList.ForEach(x => tbTechList.Rows.Add(x));
 
                     SQLConnect.Execute("Exec Project_Add @Title=@T,  @Description=@D, @TechList=@L, @UserName=@U, @NewMembers=@M",
-                            new { T = addProject.Title, D = addProject.Description,
-                                L = tbTechList.AsTableValuedParameter("TechnologyList"), U = userName, M = addProject.NewMembers});
+                            new
+                            {
+                                T = addProject.Title,
+                                D = addProject.Description,
+                                L = tbTechList.AsTableValuedParameter("TechnologyList"),
+                                U = userName,
+                                M = addProject.NewMembers
+                            });
                 }
                 else
                 {
@@ -103,31 +109,27 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] TechList)
+        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] chosenTechs, bool? newMembers)
         {
-            DataTable tbTechList = new DataTable();
-            tbTechList.Columns.Add("Id", typeof(int));
+            DataTable dataTableTechList = new DataTable();
+            dataTableTechList.Columns.Add("Id", typeof(int));
+            IEnumerable<ProjectGridEntity> grid;
 
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                IEnumerable<ProjectGridEntity> grid;
-                if (TechList != null && TechList.Count() > 0)
+                if (chosenTechs != null && chosenTechs.Count() > 0)
                 {
-                    for (int i = 0; i < TechList.Count(); i++)
+                    for (int i = 0; i < chosenTechs.Count(); i++)
                     {
-                        tbTechList.Rows.Add(TechList[i]);
+                        dataTableTechList.Rows.Add(chosenTechs[i]);
                     }
+                }
 
-                    grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S, @TechList=@L",
-                        new { S = toFind, L = tbTechList.AsTableValuedParameter("TechnologyList") });
-                }
-                else
-                {
-                    grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S", new { S = toFind });
-                }
-                return MappingDataToProjectsGrid(grid);
+                grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S, @TechList=@L, @newMembers = @M",
+                    new { S = toFind, L = dataTableTechList.AsTableValuedParameter("TechnologyList"), M = newMembers });
             }
+            return MappingDataToProjectsGrid(grid);
         }
 
         public ProjectDetailsViewModel Project_Details(int idToFind)

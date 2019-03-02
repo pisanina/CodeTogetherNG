@@ -140,12 +140,12 @@ namespace CodeTogetherNGTests
             };
 
             A.CallTo(() =>
-            _repository.SearchProject(A<string>.That.Matches(i => i == "Search"), A<int[]>.Ignored)).Returns(projectList);
+            _repository.SearchProject(A<string>.That.Matches(i => i == "Search"), A<int[]>.Ignored, A<bool?>.Ignored)).Returns(projectList);
 
-            var result = _projectController.SearchProjectGrid("Search", new int[] {1,2});
+            var result = _projectController.SearchProjectGrid("Search", new int[] {1,2}, null);
 
             A.CallTo(() =>
-               _repository.SearchProject("Search", A<int[]>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
+               _repository.SearchProject("Search", A<int[]>.Ignored, A<bool?>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
 
             var viewResult = (ViewResult)result;
             Assert.AreEqual("ProjectsGrid", viewResult.ViewName);
