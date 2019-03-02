@@ -49,7 +49,7 @@
                 <a asp-controller="Project"
                    asp-action="ProjectDetails"
                    asp-route-id="@item.ID"
-                   class="list-group-item">
+                   class="list-group-item" id="project_@item.ID">
                     <div class="flex">
                         <h4 float:"left"> @item.Title </h4>
                         <small>
