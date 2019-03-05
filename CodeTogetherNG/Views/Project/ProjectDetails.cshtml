@@ -6,44 +6,55 @@
 <h2 id="ProjectDetailsPage">Project Details</h2>
 
 <style>
-
     input, select, textarea {
         max-width: 70%;
     }
 </style>
-<div class="form-group">
-    <label asp-for="Title" class="control-label"></label>
-    <input asp-for="Title" class="form-control" id="Title" ReadOnly="true" />
-</div>
-<div class="form-group">
-    <label asp-for="OwnerName" class="control-label"></label>
-    <input asp-for="OwnerName" class="form-control" id="Owner" ReadOnly="true" />
-</div>
-<div class="form-group">
-    <label asp-for="Description" class="control-label"></label>
-    <textarea asp-for="Description" class="form-control" id="Description" ReadOnly="true"></textarea>
-</div>
-<div class="form-group">
-    <label asp-for="CreationDate" class="control-label"></label>
-    <input asp-for="CreationDate" class="form-control" id="CreationDate" ReadOnly="true" />
-</div>
-<div class="form-check">
-    <label asp-for="NewMembers" class="form-check-label"></label>
-    <input asp-for="NewMembers" class="form-check-input" id="NewMembers" type="checkbox" disabled />
-</div>
-<div class="form-group">
-    <label asp-for="Technologies" class="control-label"></label>
+@{
+    bool readOnly=!(this.User != null && this.User.Identity.Name == Model.OwnerName);
+}
+<form asp-controller="Project" asp-action="ProjectDetails" method="post" asp-anti-forgery="true">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" id="Title" ReadOnly="@readOnly" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OwnerName" class="control-label"></label>
+        <input asp-for="OwnerName" class="form-control" id="Owner" ReadOnly="false" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" id="Description" ReadOnly="@readOnly"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="CreationDate" class="control-label"></label>
+        <input asp-for="CreationDate" class="form-control" id="CreationDate" ReadOnly="false" />
+    </div>
+    <div class="form-check">
+        <label asp-for="NewMembers" class="form-check-label"></label>
+        <input asp-for="NewMembers" class="form-check-input" id="NewMembers" type="checkbox" disabled="@readOnly" />
+    </div>
 
-    <select name="TechList" id="TechList" size="7" multiple disabled>
-        @foreach (var item in ViewBag.TechList)
-        {
-            if ((from x in Model.Technologies where x.Id == @item.Id select x).Any())
-            {
-                <option value=@item.Id selected>@item.TechName</option> }
+    <div class="form-group">
 
-            else
+        <label asp-for="TechList" class="control-label"></label>
+
+        <select name="TechList" id="TechList" size="7" multiple disabled="@readOnly">
+            @foreach (var item in ViewBag.TechList)
             {
-                <option value=@item.Id>@item.TechName</option>}
-        }
-    </select>
-</div>
+                if ((from x in Model.TechList where x == @item.Id select x).Any())
+                {
+                    <option name="id" value=@item.Id selected>@item.TechName</option>
+                }
+                else
+                {
+                    <option name="id" value=@item.Id>@item.TechName</option>
+                }
+            }
+        </select>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-light" id="Save" />
+        </div>
+</form>

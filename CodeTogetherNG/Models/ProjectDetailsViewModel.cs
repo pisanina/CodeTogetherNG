@@ -9,14 +9,15 @@ namespace CodeTogetherNG.Models
 {
     public class ProjectDetailsViewModel
     {
-        public int ID;
-        public string Title;
-            [DisplayName("Owner Name")]
-        public string OwnerName { get; set; }
-        public string Description;
-        public string CreationDate;
-            [DisplayName("Looking for new members?")]
-        public bool NewMembers { get; set; }
-        public List<TechnologyViewModel> Technologies;
+        public int ID                                 { get; set; }
+        public string Title                           { get; set; }
+        [DisplayName("Owner Name")]
+        public string OwnerName                       { get; set; }
+        public string Description                     { get; set; }
+        public string CreationDate                    { get; set; }
+        [DisplayName("Looking for new members?")]
+        public bool NewMembers                        { get; set; }
+       // public List<TechnologyViewModel> Technologies { get; set; }
+        public List<int> TechList { get; set; }
     }
 }

@@ -12,6 +12,8 @@ namespace CodeTogetherNG.Repositories
         IEnumerable<ProjectsGridViewModel> AllProjects();
         IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers);
         ProjectDetailsViewModel Project_Details(int IdToFind);
+        void Project_Edit(ProjectDetailsViewModel project);
+        string Project_OwnerName(int id);
         IEnumerable<TechnologyViewModel> Project_Technology();
         ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid);
         IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid);

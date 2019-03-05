@@ -142,6 +142,35 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+        public void Project_Edit(ProjectDetailsViewModel project)
+        {
+            DataTable chosenTechs = new DataTable();
+            chosenTechs.Columns.Add("Id", typeof(int));
+
+            using (SqlConnection SQLConnect =
+               new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                if (project.TechList != null && project.TechList.Count() > 0)
+                {
+                    for (int i = 0; i < project.TechList.Count; i++)
+                    {
+                        chosenTechs.Rows.Add(project.TechList[i]);
+                    }
+                }
+
+                SQLConnect.Execute("Exec Project_Edit @id=@I, @title=@T, @description=@D," +
+                                    "@techList=@L, @newMembers = @M",
+                                     new
+                                     {
+                                         I = project.ID,
+                                         T = project.Title,
+                                         D = project.Description,
+                                         L = chosenTechs.AsTableValuedParameter("TechnologyList"),
+                                         M = project.NewMembers
+                                     });
+            }
+        }
+
         public IEnumerable<TechnologyViewModel> Project_Technology()
         {
             using (SqlConnection SQLConnect =
@@ -149,6 +178,16 @@ namespace CodeTogetherNG.Repositories
             {
                 var TechnologyList = SQLConnect.Query<TechnologyViewModel>("Exec Technology_List");
                 return TechnologyList;
+            }
+        }
+
+        public string Project_OwnerName(int id)
+        {
+            using (SqlConnection SQLConnect =
+               new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var OwnerName = SQLConnect.QuerySingle<string>("Exec ProjectOwnerName @Id=@I", new {I = id});
+                return OwnerName;
             }
         }
 
@@ -164,18 +203,15 @@ namespace CodeTogetherNG.Repositories
                     NewMembers = grid[0].NewMembers,
                     Description = grid[0].Description,
                     CreationDate = grid[0].CreationDate,
-                    Technologies = new List<TechnologyViewModel>()
+                   // Technologies = new List<TechnologyViewModel>()
+                    TechList = new List<int>()
                 };
 
                 foreach (var item in grid)
                 {
                     if (item.TechnologyId != 0)
                     {
-                        ProjectDetails.Technologies.Add(new TechnologyViewModel
-                        {
-                            Id = item.TechnologyId,
-                            TechName = item.TechName
-                        });
+                        ProjectDetails.TechList.Add(item.TechnologyId);
                     }
                     else break;
                 }

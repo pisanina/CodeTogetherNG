@@ -58,11 +58,9 @@ namespace CodeTogetherNGTests
             Assert.AreEqual("Very long Description ", Details.Description);
             Assert.AreEqual("TestUser@a.com", Details.OwnerName);
 
-            Assert.AreEqual(2, Details.Technologies.Count);
-            Assert.AreEqual(5, Details.Technologies[0].Id);
-            Assert.AreEqual(3, Details.Technologies[1].Id);
-            Assert.AreEqual("C#", Details.Technologies[0].TechName);
-            Assert.AreEqual("C", Details.Technologies[1].TechName);
+            Assert.AreEqual(2, Details.TechList.Count);
+            Assert.AreEqual(5, Details.TechList[0]);
+            Assert.AreEqual(3, Details.TechList[1]);
         }
 
         [Test]
@@ -85,7 +83,7 @@ namespace CodeTogetherNGTests
 
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
-            Assert.IsEmpty(Details.Technologies);
+            Assert.IsEmpty(Details.TechList);
         }
 
         [Test]
