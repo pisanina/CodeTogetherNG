@@ -23,7 +23,7 @@ namespace CodeTogetherNG.Controllers
 
         [HttpPost]
         [Authorize]
-        public ViewResult AddProject(AddProjectViewModel addProject)
+        public ActionResult AddProject(AddProjectViewModel addProject)
         {
             string userName = string.Empty;
 
@@ -44,7 +44,7 @@ namespace CodeTogetherNG.Controllers
                 else throw;
             }
 
-            return ShowProjectsGrid();
+            return RedirectToAction("ShowProjectsGrid", "Project");
         }
 
         public ViewResult ShowProjectsGrid()
@@ -91,7 +91,7 @@ namespace CodeTogetherNG.Controllers
                     }
                     else throw;
                 }
-                return ProjectDetails(project.ID);
+                return RedirectToAction("ShowProjectsGrid", "Project");
             }
             else
             {
