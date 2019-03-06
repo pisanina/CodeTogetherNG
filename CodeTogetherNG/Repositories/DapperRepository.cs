@@ -69,6 +69,7 @@ namespace CodeTogetherNG.Repositories
             return list;
         }
 
+
         public void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature)
         {
             using (SqlConnection SQLConnect =
@@ -78,6 +79,7 @@ namespace CodeTogetherNG.Repositories
                     new { E = exceptionFeature.Error.Message });
             }
         }
+
 
         public void NewProject(AddProjectViewModel addProject, string userName)
         {
@@ -109,6 +111,7 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+
         public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] chosenTechs, bool? newMembers)
         {
             DataTable dataTableTechList = new DataTable();
@@ -132,6 +135,7 @@ namespace CodeTogetherNG.Repositories
             return MappingDataToProjectsGrid(grid);
         }
 
+
         public ProjectDetailsViewModel Project_Details(int idToFind)
         {
             using (SqlConnection SQLConnect =
@@ -141,6 +145,7 @@ namespace CodeTogetherNG.Repositories
                 return MappingDataToProjectDetails(Grids);
             }
         }
+
 
         public void Project_Edit(ProjectDetailsViewModel project)
         {
@@ -159,17 +164,18 @@ namespace CodeTogetherNG.Repositories
                 }
 
                 SQLConnect.Execute("Exec Project_Edit @id=@I, @title=@T, @description=@D," +
-                                    "@techList=@L, @newMembers = @M",
-                                     new
-                                     {
-                                         I = project.ID,
-                                         T = project.Title,
-                                         D = project.Description,
-                                         L = chosenTechs.AsTableValuedParameter("TechnologyList"),
-                                         M = project.NewMembers
-                                     });
+                                    "@techList=@L, @newMembers = @M, @stateId = @S",
+                                     new {
+                                             I = project.ID,
+                                             T = project.Title,
+                                             D = project.Description,
+                                             L = chosenTechs.AsTableValuedParameter("TechnologyList"),
+                                             M = project.NewMembers,
+                                             S = project.StateId
+                                         });
             }
         }
+
 
         public IEnumerable<TechnologyViewModel> Project_Technology()
         {
@@ -178,6 +184,16 @@ namespace CodeTogetherNG.Repositories
             {
                 var TechnologyList = SQLConnect.Query<TechnologyViewModel>("Exec Technology_List");
                 return TechnologyList;
+            }
+        }
+
+        public IEnumerable<ProjectStateViewModel> Project_States()
+        {
+            using (SqlConnection SQLConnect =
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var StateList = SQLConnect.Query<ProjectStateViewModel>("Exec State_List");
+                return StateList;
             }
         }
 
@@ -197,11 +213,12 @@ namespace CodeTogetherNG.Repositories
             {
                 ProjectDetailsViewModel  ProjectDetails = new ProjectDetailsViewModel
                 {
-                    ID = grid[0].ID,
-                    Title = grid[0].Title,
-                    OwnerName = grid[0].UserName,
-                    NewMembers = grid[0].NewMembers,
-                    Description = grid[0].Description,
+                    ID           = grid[0].ID,
+                    Title        = grid[0].Title,
+                    StateId      = grid[0].StateId,
+                    OwnerName    = grid[0].UserName,
+                    NewMembers   = grid[0].NewMembers,
+                    Description  = grid[0].Description,
                     CreationDate = grid[0].CreationDate,
                    // Technologies = new List<TechnologyViewModel>()
                     TechList = new List<int>()

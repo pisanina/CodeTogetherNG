@@ -7,15 +7,16 @@ namespace CodeTogetherNG.Repositories
 {
     public interface IRepository
     {
-        void NewProject(AddProjectViewModel AddProject, string userName);
+        string Project_OwnerName(int id);
+        void Project_Edit(ProjectDetailsViewModel project);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
+        void NewProject(AddProjectViewModel AddProject, string userName);
         IEnumerable<ProjectsGridViewModel> AllProjects();
         IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers);
-        ProjectDetailsViewModel Project_Details(int IdToFind);
-        void Project_Edit(ProjectDetailsViewModel project);
-        string Project_OwnerName(int id);
         IEnumerable<TechnologyViewModel> Project_Technology();
-        ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid);
+        IEnumerable<ProjectStateViewModel> Project_States();
         IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid);
+        ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid);
+        ProjectDetailsViewModel Project_Details(int IdToFind);
     }
 }

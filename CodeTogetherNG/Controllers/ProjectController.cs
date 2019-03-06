@@ -63,6 +63,7 @@ namespace CodeTogetherNG.Controllers
         [HttpGet]
         public ViewResult ProjectDetails(int id)
         {
+            ViewBag.States = repo.Project_States();
             ViewBag.TechList = repo.Project_Technology();
             return View("ProjectDetails", repo.Project_Details(id));
         }

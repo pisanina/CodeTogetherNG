@@ -2,7 +2,7 @@
 {
     public class TechnologyViewModel
     {
-        public int Id { get; set; }
+        public int Id          { get; set; }
         public string TechName { get; set; }
     }
 }

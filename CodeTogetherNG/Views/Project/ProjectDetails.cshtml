@@ -53,8 +53,28 @@
                 }
             }
         </select>
+    </div>
 
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-light" id="Save" />
-        </div>
+    <div class="form-group">
+        <label asp-for="StateId" class="control-label"></label>
+
+        <select name="StateId" id="State" disabled="@readOnly">
+            @foreach (var item in ViewBag.States)
+            {
+                if (Model.StateId == @item.Id)
+                {
+                    <option name="id" value=@item.Id selected>@item.State</option>
+                }
+                else
+                {
+                    <option name="id" value=@item.Id>@item.State</option>
+                }
+            }
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-light" id="Save" />
+    </div>
 </form>
