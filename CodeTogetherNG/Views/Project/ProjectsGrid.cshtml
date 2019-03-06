@@ -32,7 +32,17 @@
                         <option value=@item.Id>@item.TechName</option>
                     }
                 </select>
-                <select name="NewMembers"  id="NewMembers">
+
+                <select name="state" id="State">
+                    <option value=null>Project State</option>
+
+                    @foreach (var item in ViewBag.States)
+                    {
+                        <option value=@item.Id>@item.State</option>
+                    }
+                </select>
+
+                <select name="NewMembers" id="NewMembers">
                     <option value=null>Members</option>
                     <option value=true>Wanted</option>
                     <option value=false>We Are Full</option>

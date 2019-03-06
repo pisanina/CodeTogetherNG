@@ -12,7 +12,7 @@ namespace CodeTogetherNG.Repositories
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
         void NewProject(AddProjectViewModel AddProject, string userName);
         IEnumerable<ProjectsGridViewModel> AllProjects();
-        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers);
+        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers, int? state);
         IEnumerable<TechnologyViewModel> Project_Technology();
         IEnumerable<ProjectStateViewModel> Project_States();
         IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid);

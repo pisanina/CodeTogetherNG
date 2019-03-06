@@ -112,7 +112,7 @@ namespace CodeTogetherNG.Repositories
         }
 
 
-        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] chosenTechs, bool? newMembers)
+        public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] chosenTechs, bool? newMembers, int? state)
         {
             DataTable dataTableTechList = new DataTable();
             dataTableTechList.Columns.Add("Id", typeof(int));
@@ -129,8 +129,10 @@ namespace CodeTogetherNG.Repositories
                     }
                 }
 
-                grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @ToFind=@S, @TechList=@L, @newMembers = @M",
-                    new { S = toFind, L = dataTableTechList.AsTableValuedParameter("TechnologyList"), M = newMembers });
+                grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @toFind=@F, @techList=@L" +
+                    ", @newMembers = @M, @StateId =@S",
+                    new { F = toFind, L = dataTableTechList.AsTableValuedParameter("TechnologyList")
+                    , M = newMembers, S = state });
             }
             return MappingDataToProjectsGrid(grid);
         }
