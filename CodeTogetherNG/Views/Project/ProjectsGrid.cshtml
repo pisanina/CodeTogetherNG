@@ -80,7 +80,7 @@
                     <div class="flex">
                         <p> @item.Description </p>
                         @if (item.NewMembers)
-                        { <span class="glyphicon glyphicon-user" float:"right"></span> }
+                        { <span id ="newMembers-icon" class="glyphicon glyphicon-user" float:"right"></span> }
                     </div>
                 </a>
             </div>
@@ -91,7 +91,7 @@ else
 {
     <div class="jumbotron" align="center">
         <h2 align="center">Sorry, there is no match.</h2><br>
-        <a class="btn btn-primary btn-lg" asp-controller="Project"
+        <a class="btn btn-primary btn-lg" id="Please" asp-controller="Project"
            asp-action="ShowProjectsGrid" role="button">Please try again.</a>
     </div>
 }
