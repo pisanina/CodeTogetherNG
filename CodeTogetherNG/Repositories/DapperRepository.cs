@@ -69,7 +69,6 @@ namespace CodeTogetherNG.Repositories
             return list;
         }
 
-
         public void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature)
         {
             using (SqlConnection SQLConnect =
@@ -79,7 +78,6 @@ namespace CodeTogetherNG.Repositories
                     new { E = exceptionFeature.Error.Message });
             }
         }
-
 
         public void NewProject(AddProjectViewModel addProject, string userName)
         {
@@ -111,7 +109,6 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-
         public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] chosenTechs, bool? newMembers, int? state)
         {
             DataTable dataTableTechList = new DataTable();
@@ -131,12 +128,17 @@ namespace CodeTogetherNG.Repositories
 
                 grid = SQLConnect.Query<ProjectGridEntity>("Exec Project_Search @toFind=@F, @techList=@L" +
                     ", @newMembers = @M, @StateId =@S",
-                    new { F = toFind, L = dataTableTechList.AsTableValuedParameter("TechnologyList")
-                    , M = newMembers, S = state });
+                    new
+                    {
+                        F = toFind,
+                        L = dataTableTechList.AsTableValuedParameter("TechnologyList")
+                    ,
+                        M = newMembers,
+                        S = state
+                    });
             }
             return MappingDataToProjectsGrid(grid);
         }
-
 
         public ProjectDetailsViewModel Project_Details(int idToFind)
         {
@@ -147,7 +149,6 @@ namespace CodeTogetherNG.Repositories
                 return MappingDataToProjectDetails(Grids);
             }
         }
-
 
         public void Project_Edit(ProjectDetailsViewModel project)
         {
@@ -167,17 +168,17 @@ namespace CodeTogetherNG.Repositories
 
                 SQLConnect.Execute("Exec Project_Edit @id=@I, @title=@T, @description=@D," +
                                     "@techList=@L, @newMembers = @M, @stateId = @S",
-                                     new {
-                                             I = project.ID,
-                                             T = project.Title,
-                                             D = project.Description,
-                                             L = chosenTechs.AsTableValuedParameter("TechnologyList"),
-                                             M = project.NewMembers,
-                                             S = project.StateId
-                                         });
+                                     new
+                                     {
+                                         I = project.ID,
+                                         T = project.Title,
+                                         D = project.Description,
+                                         L = chosenTechs.AsTableValuedParameter("TechnologyList"),
+                                         M = project.NewMembers,
+                                         S = project.StateId
+                                     });
             }
         }
-
 
         public IEnumerable<TechnologyViewModel> Project_Technology()
         {
@@ -206,6 +207,16 @@ namespace CodeTogetherNG.Repositories
             {
                 var OwnerName = SQLConnect.QuerySingle<string>("Exec ProjectOwnerName @Id=@I", new {I = id});
                 return OwnerName;
+            }
+        }
+
+        public void NewRequest(int projectId, string userName, string message)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                SQLConnect.Execute("Exec ProjectMember_NewRequest @projectId=@I, @UserName=@U, @Message=@M",
+                    new { I = projectId, U = userName, M = message });
             }
         }
 

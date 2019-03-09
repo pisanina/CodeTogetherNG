@@ -11,12 +11,14 @@
     }
 </style>
 @{
-    bool readOnly=!(this.User != null && this.User.Identity.Name == Model.OwnerName);
+    bool readOnly=!(this.User.Identity.Name == Model.OwnerName);
+    bool CanSendJoinRequest = this.User.Identity.Name != null && this.User.Identity.Name != Model.OwnerName;
 }
 <form asp-controller="Project" asp-action="ProjectDetails" method="post" asp-anti-forgery="true">
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
-        <input asp-for="Title" class="form-control" id="Title" ReadOnly="@readOnly" />
+        <input asp-for="Title" class="form-control" id="Title" ReadOnly="@readOnly"
+               maxlength=50 minlength=2 required />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -25,7 +27,8 @@
     </div>
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control" id="Description" ReadOnly="@readOnly"></textarea>
+        <textarea asp-for="Description" class="form-control" id="Description"
+                  ReadOnly="@readOnly" maxlength=500 minlength=20 required></textarea>
     </div>
     <div class="form-group">
         <label asp-for="CreationDate" class="control-label"></label>
@@ -74,10 +77,24 @@
         </select>
     </div>
 
-  @if (!readOnly)
-  {
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-light" id="Save"/>
-    </div>
-  }
+    @if (!readOnly)
+    {
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-light" id="Save" />
+        </div>
+    }
+</form>
+
+<form asp-controller="Member" asp-action="NewRequest" method="post" asp-anti-forgery="true">
+    @if (CanSendJoinRequest)
+    {
+        <hr/>
+        <div class="form-group">
+            <input type="hidden" value=@Model.ID name = "projectId"/> 
+            <textarea class="form-control" id="RequestMessage" name="message" 
+                      placeholder="If you want to join this project, please insert message to owner" rows="5" 
+                      style="resize:vertical" maxlength=500 minlength=2 required></textarea>
+            <input type="submit" value="Send" class="btn btn-light" id="Send" />
+        </div>
+    }
 </form>
