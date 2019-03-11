@@ -67,6 +67,7 @@ namespace CodeTogetherNG.Controllers
         {
             ViewBag.States = repo.Project_States();
             ViewBag.TechList = repo.Project_Technology();
+            ViewBag.RequestsCount = repo.RequestsCount(id);
             return View("ProjectDetails", repo.Project_Details(id));
         }
 

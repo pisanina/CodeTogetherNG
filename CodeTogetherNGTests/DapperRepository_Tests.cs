@@ -53,7 +53,7 @@ namespace CodeTogetherNGTests
             ListOfProjects.Add(ProjEntity1);
             ListOfProjects.Add(ProjEntity2);
 
-            var Details = _repository.MappingDataToProjectDetails(ListOfProjects);
+            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0);
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
             Assert.AreEqual("TestUser@a.com", Details.OwnerName);
@@ -79,7 +79,7 @@ namespace CodeTogetherNGTests
 
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();
             ListOfProjects.Add(ProjEntity1);
-            var Details = _repository.MappingDataToProjectDetails(ListOfProjects);
+            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0);
 
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
@@ -91,7 +91,7 @@ namespace CodeTogetherNGTests
         {
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();
 
-            var Details = _repository.MappingDataToProjectDetails(ListOfProjects);
+            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0);
 
             Assert.Null(Details);
         }
@@ -99,7 +99,7 @@ namespace CodeTogetherNGTests
         [Test]
         public void Details_MappingTestNoObject()
         {
-            var Details = _repository.MappingDataToProjectDetails(null);
+            var Details = _repository.MappingDataToProjectDetails(null, 0);
 
             Assert.Null(Details);
         }

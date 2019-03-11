@@ -1,0 +1,42 @@
+﻿@model IEnumerable<CodeTogetherNG.Models.RequestsListViewModel>
+@{
+    ViewData["Title"] = "RequestMember";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Requests from users</h2>
+<hr />
+
+<form asp-controller="Member" asp-action="ReactToRequest" method="post" asp-anti-forgery="true">
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12">
+                <div class="list-group-item" >
+                    <div class="flex">
+                        <h4 float:"left"> @item.Title </h4>
+                        <small>
+
+                            <p> @item.UserName</p>
+                            <p> @item.MessageDate</p>
+                        </small>
+                    </div>
+                    <div class="flex">
+                        <p> @item.Message </p>
+
+                    </div>
+                    @if (@item.Accept is null)
+                    {
+                        <div>
+                            <input type="button" class="btn btn-light" id="Accept" value="Accept" onclick="location.href='@Url.Action("ReactToRequest", "Member", new { @projectId =item.ProjectId, @memberId=item.MemberId, @accept = true })'" />
+                            <input type="button" class="btn btn-light" id="Decline" value="Decline" onclick="location.href='@Url.Action("ReactToRequest", "Member", new { @projectId =item.ProjectId, @memberId=item.MemberId, @accept = false })'" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    
+</form>
+
+

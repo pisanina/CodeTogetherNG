@@ -131,8 +131,7 @@ namespace CodeTogetherNG.Repositories
                     new
                     {
                         F = toFind,
-                        L = dataTableTechList.AsTableValuedParameter("TechnologyList")
-                    ,
+                        L = dataTableTechList.AsTableValuedParameter("TechnologyList"),
                         M = newMembers,
                         S = state
                     });
@@ -145,8 +144,9 @@ namespace CodeTogetherNG.Repositories
             using (SqlConnection SQLConnect =
                 new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var Grids = SQLConnect.Query<ProjectEntity>("Exec Project_Details @FindId=@Id", new { Id = idToFind }).ToList();
-                return MappingDataToProjectDetails(Grids);
+                var grids = SQLConnect.Query<ProjectEntity>("Exec Project_Details @FindId=@Id", new { Id = idToFind }).ToList();
+                int requestsCount = SQLConnect.QuerySingle<int>("Exec RequestsCount @ProjectId=@Id", new { Id = idToFind});
+                return MappingDataToProjectDetails(grids, requestsCount);
             }
         }
 
@@ -210,6 +210,36 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+        public void SetRequestStatus(int projectId, string memberId, bool accept)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                SQLConnect.Execute("Exec AcceptMember @ProjectId=@I, @MemberId=@M, @Accept=@A",
+                    new { I = projectId, M = memberId, A = accept });
+            }
+        }
+
+        public IEnumerable<RequestsListViewModel> RequestsList(int projectId)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var requestsList = SQLConnect.Query<RequestsListViewModel>("Exec RequestsList @ProjectId=@I", new {I = projectId});
+                return requestsList;
+            }
+        }
+
+        public int RequestsCount(int projectId)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var requestsCount = SQLConnect.QuerySingle<int>("Exec RequestsCount @ProjectId=@I", new {I = projectId});
+                return (requestsCount);
+            }
+        }
+
         public void NewRequest(int projectId, string userName, string message)
         {
             using (SqlConnection SQLConnect =
@@ -220,20 +250,21 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid)
+
+        public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount)
         {
             if (grid != null && grid.Any())
             {
                 ProjectDetailsViewModel  ProjectDetails = new ProjectDetailsViewModel
                 {
-                    ID           = grid[0].ID,
-                    Title        = grid[0].Title,
-                    StateId      = grid[0].StateId,
-                    OwnerName    = grid[0].UserName,
-                    NewMembers   = grid[0].NewMembers,
-                    Description  = grid[0].Description,
-                    CreationDate = grid[0].CreationDate,
-                   // Technologies = new List<TechnologyViewModel>()
+                    ID            = grid[0].ID,
+                    Title         = grid[0].Title,
+                    StateId       = grid[0].StateId,
+                    OwnerName     = grid[0].UserName,
+                    NewMembers    = grid[0].NewMembers,
+                    Description   = grid[0].Description,
+                    CreationDate  = grid[0].CreationDate,
+                    RequestsCount = requestsCount,
                     TechList = new List<int>()
                 };
 
