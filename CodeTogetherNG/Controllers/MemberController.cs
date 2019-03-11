@@ -35,7 +35,7 @@ namespace CodeTogetherNG.Controllers
 
       
         [Authorize]
-        public ViewResult ReactToRequest(int projectId, string memberId, bool accept)
+        public ActionResult ReactToRequest(int projectId, string memberId, bool accept)
         {
             string userName = string.Empty;
 
@@ -43,7 +43,7 @@ namespace CodeTogetherNG.Controllers
                 userName = this.User.Identity.Name;
 
             repo.SetRequestStatus(projectId, memberId, accept);
-            return View("RequestMember", projectId);
+            return RedirectToAction("RequestMember", "Member", new { projectId = projectId });
         }
 
     }
