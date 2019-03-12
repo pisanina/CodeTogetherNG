@@ -146,7 +146,8 @@ namespace CodeTogetherNG.Repositories
             {
                 var grids = SQLConnect.Query<ProjectEntity>("Exec Project_Details @FindId=@Id", new { Id = idToFind }).ToList();
                 int requestsCount = SQLConnect.QuerySingle<int>("Exec RequestsCount @ProjectId=@Id", new { Id = idToFind});
-                return MappingDataToProjectDetails(grids, requestsCount);
+                List<string> membersList = SQLConnect.Query<string>("Exec MembersList @ProjectId", new { ProjectId = idToFind}).ToList();
+                return MappingDataToProjectDetails(grids, requestsCount, membersList);
             }
         }
 
@@ -251,7 +252,7 @@ namespace CodeTogetherNG.Repositories
         }
 
 
-        public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount)
+        public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount, List<string> membersList)
         {
             if (grid != null && grid.Any())
             {
@@ -265,6 +266,7 @@ namespace CodeTogetherNG.Repositories
                     Description   = grid[0].Description,
                     CreationDate  = grid[0].CreationDate,
                     RequestsCount = requestsCount,
+                    MembersNames  = membersList,
                     TechList = new List<int>()
                 };
 

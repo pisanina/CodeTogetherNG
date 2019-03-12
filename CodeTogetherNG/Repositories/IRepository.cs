@@ -20,7 +20,7 @@ namespace CodeTogetherNG.Repositories
         IEnumerable<ProjectStateViewModel> Project_States();
         IEnumerable<RequestsListViewModel> RequestsList(int projectId);
         IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid);
-        ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount);
+        ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount, List<string> membersList);
         ProjectDetailsViewModel Project_Details(int IdToFind);
     }
 }

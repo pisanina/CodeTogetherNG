@@ -26,6 +26,23 @@
         <input asp-for="OwnerName" class="form-control" id="Owner" ReadOnly="false" />
     </div>
     <div class="form-group">
+       <label asp-for="MembersNames" class="control-label"></label>
+       <input class="form-control" id="Members" ReadOnly="false" 
+              value="@for (int i = 0; i < Model.MembersNames.Count; i++)
+        {
+            if (i == Model.MembersNames.Count - 1)
+            {
+                @Model.MembersNames[i];
+            }
+            else
+            {
+                @(Model.MembersNames[i] + ", ");
+            }
+        } "
+        />
+
+    </div>
+    <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
         <textarea asp-for="Description" class="form-control" id="Description"
                   ReadOnly="@OwnerNotLogged" maxlength=500 minlength=20 required></textarea>
@@ -98,11 +115,11 @@
         </div>
     }
 </form>
-@if (ViewBag.RequestsCount > 0 && !OwnerNotLogged)
+@if (@Model.RequestsCount > 0 && !OwnerNotLogged)
 {
 <div class="form-group">
     
-    <input type="button" class="btn btn-light" id="Accept" value="Show New Requests (@ViewBag.RequestsCount)"
+    <input type="button" class="btn btn-light" id="Accept" value="Show New Requests (@Model.RequestsCount)"
            onclick="location.href='@Url.Action("RequestMember", "Member", new { @projectId = Model.ID })'" />
 </div>
 }

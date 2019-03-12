@@ -52,8 +52,9 @@ namespace CodeTogetherNGTests
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();
             ListOfProjects.Add(ProjEntity1);
             ListOfProjects.Add(ProjEntity2);
+            List<string> MembersList = new List<string>();
 
-            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0);
+            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0, MembersList);
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
             Assert.AreEqual("TestUser@a.com", Details.OwnerName);
@@ -79,7 +80,8 @@ namespace CodeTogetherNGTests
 
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();
             ListOfProjects.Add(ProjEntity1);
-            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0);
+            List<string> MembersList = new List<string>();
+            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0, MembersList);
 
             Assert.AreEqual("First", Details.Title);
             Assert.AreEqual("Very long Description ", Details.Description);
@@ -90,8 +92,9 @@ namespace CodeTogetherNGTests
         public void Details_MappingTestNoValues()
         {
             List<ProjectEntity> ListOfProjects = new List<ProjectEntity>();
+            List<string> MembersList = new List<string>();
 
-            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0);
+            var Details = _repository.MappingDataToProjectDetails(ListOfProjects, 0, MembersList);
 
             Assert.Null(Details);
         }
@@ -99,7 +102,8 @@ namespace CodeTogetherNGTests
         [Test]
         public void Details_MappingTestNoObject()
         {
-            var Details = _repository.MappingDataToProjectDetails(null, 0);
+            List<string> MembersList = new List<string>();
+            var Details = _repository.MappingDataToProjectDetails(null, 0, MembersList);
 
             Assert.Null(Details);
         }

@@ -20,6 +20,9 @@ namespace CodeTogetherNG.Models
         [DisplayName("Looking for new members?")]
         public bool NewMembers                           { get; set; }
         public List<int> TechList                        { get; set; }
+
         public int RequestsCount                         { get; set; }
+        [DisplayName("Members")]
+        public List<string> MembersNames                 { get; set; }
     }
 }
