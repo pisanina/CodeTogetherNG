@@ -27,8 +27,8 @@
                             <p id="Message"> @item.Message </p>
                         </div>
                         <div>
-                            <input type="button" class="btn btn-light" id="Accept_@item.UserName" value="Accept" onclick="location.href='@Url.Action("ReactToRequest", "Member", new { @projectId =item.ProjectId, @memberId=item.MemberId, @accept = true })'" />
-                            <input type="button" class="btn btn-light" id="Decline_@item.UserName" value="Decline" onclick="location.href='@Url.Action("ReactToRequest", "Member", new { @projectId =item.ProjectId, @memberId=item.MemberId, @accept = false })'" />
+                            <input type="button" class="btn btn-light" id="Accept_@item.UserName" value="Accept" onclick="location.href='@Url.Action("ReactToRequest", "Member", new { @Id = item.RequestId, @accept = true, @ProjectId = item.ProjectId })'" />
+                            <input type="button" class="btn btn-light" id="Decline_@item.UserName" value="Decline" onclick="location.href='@Url.Action("ReactToRequest", "Member", new { @Id = item.RequestId, @accept = false, @ProjectId = item.ProjectId })'" />
                         </div>
                     </div>
                 </div>

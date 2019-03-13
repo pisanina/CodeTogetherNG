@@ -1,6 +1,7 @@
 ﻿using CodeTogetherNG.Models;
 using CodeTogetherNG.Repositories.Entities;
 using Microsoft.AspNetCore.Diagnostics;
+using System;
 using System.Collections.Generic;
 
 namespace CodeTogetherNG.Repositories
@@ -12,8 +13,10 @@ namespace CodeTogetherNG.Repositories
         void Project_Edit(ProjectDetailsViewModel project);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
         void NewRequest(int projectId, string userName, string message);
-        void SetRequestStatus(int projectId, string memberId, bool accept);
+        void SetRequestStatus(int id, bool accept);
         void NewProject(AddProjectViewModel AddProject, string userName);
+        Tuple<bool, string> GetMembershipState(int projectId, string userName);
+        Tuple<bool, string> MappingToMembership(MembershipStateEntity membershipStateEntity);
         IEnumerable<ProjectsGridViewModel> AllProjects();
         IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers, int? state);
         IEnumerable<TechnologyViewModel> Project_Technology();

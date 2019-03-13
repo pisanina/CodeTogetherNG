@@ -25,14 +25,9 @@ namespace CodeTogetherNG.Controllers
         [Authorize]
         public ActionResult AddProject(AddProjectViewModel addProject)
         {
-            string userName = string.Empty;
-
-            if (this.User != null)
-                userName = this.User.Identity.Name;
-
             try
             {
-                repo.NewProject(addProject, userName);
+                repo.NewProject(addProject, this.User.Identity.Name);
             }
             catch (System.Exception e)
             {
@@ -67,7 +62,7 @@ namespace CodeTogetherNG.Controllers
         {
             ViewBag.States = repo.Project_States();
             ViewBag.TechList = repo.Project_Technology();
-           
+            ViewBag.Membership = repo.GetMembershipState(id, this.User.Identity.Name);
             return View("ProjectDetails", repo.Project_Details(id));
         }
 
@@ -76,7 +71,7 @@ namespace CodeTogetherNG.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ProjectDetails(ProjectDetailsViewModel project)
         {
-            if (this.User != null && this.User.Identity.Name == repo.Project_OwnerName(project.ID))
+            if (this.User.Identity.Name == repo.Project_OwnerName(project.ID))
             {
                 try
                 {

@@ -24,25 +24,15 @@ namespace CodeTogetherNG.Controllers
         [Authorize]
         public ActionResult NewRequest(int projectId, string message)
         {
-            string userName = string.Empty;
-
-            if (this.User != null)
-                userName = this.User.Identity.Name;
-
-            repo.NewRequest(projectId, userName, message);
+            repo.NewRequest(projectId, this.User.Identity.Name, message);
             return RedirectToAction("ShowProjectsGrid", "Project");
         }
 
       
         [Authorize]
-        public ActionResult ReactToRequest(int projectId, string memberId, bool accept)
+        public ActionResult ReactToRequest(int id, bool accept, int projectId)
         {
-            string userName = string.Empty;
-
-            if (this.User != null)
-                userName = this.User.Identity.Name;
-
-            repo.SetRequestStatus(projectId, memberId, accept);
+            repo.SetRequestStatus(id, accept);
             return RedirectToAction("RequestMember", "Member", new { projectId = projectId });
         }
 

@@ -2,9 +2,11 @@
 using CodeTogetherNG.Models;
 using CodeTogetherNG.Repositories;
 using FakeItEasy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace CodeTogetherNGTests
 {
@@ -25,6 +27,22 @@ namespace CodeTogetherNGTests
 
             //tworzymy controlera do trstow z fakami
             _projectController = new ProjectController(_repository);
+
+            SetUpAFakeUserIdentity();
+        }
+
+        private void SetUpAFakeUserIdentity()
+        {
+            var identity = new GenericIdentity("");
+            var principal = new GenericPrincipal(identity, new[] { "user" } );
+
+            _projectController.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = principal
+                }
+            };
         }
 
         [Test]
@@ -48,12 +66,11 @@ namespace CodeTogetherNGTests
                 a == addProjectViewModel), A<string>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
 
             Assert.NotNull(result);
-      
+
             var actionResult = (RedirectToActionResult)result;
 
             Assert.AreEqual("Project", actionResult.ControllerName);
             Assert.AreEqual("ShowProjectsGrid", actionResult.ActionName);
-
         }
 
         [Test]

@@ -3,6 +3,7 @@ using CodeTogetherNG.Repositories.Entities;
 using Dapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -150,7 +151,7 @@ namespace CodeTogetherNG.Repositories
                 return MappingDataToProjectDetails(grids, requestsCount, membersList);
             }
         }
-
+       
         public void Project_Edit(ProjectDetailsViewModel project)
         {
             DataTable chosenTechs = new DataTable();
@@ -211,13 +212,13 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public void SetRequestStatus(int projectId, string memberId, bool accept)
+        public void SetRequestStatus(int id, bool accept)
         {
             using (SqlConnection SQLConnect =
               new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                SQLConnect.Execute("Exec AcceptMember @ProjectId=@I, @MemberId=@M, @Accept=@A",
-                    new { I = projectId, M = memberId, A = accept });
+                SQLConnect.Execute("Exec AcceptMember @Id=@I, @Accept=@A",
+                    new { I = id, A = accept });
             }
         }
 
@@ -251,6 +252,31 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+        public Tuple<bool, string> GetMembershipState(int projectId, string userName)
+        {
+            MembershipStateEntity membershipStateEntity;
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                membershipStateEntity = SQLConnect.QuerySingleOrDefault<MembershipStateEntity>("Exec GetMemberShipState @projectId=@I, @UserName=@U",
+                     new { I = projectId, U = userName, });
+            }
+            return MappingToMembership(membershipStateEntity);
+        }
+
+        public Tuple<bool, string> MappingToMembership(MembershipStateEntity membershipStateEntity)
+        {
+            if (membershipStateEntity is null)
+                return new Tuple<bool, string>(true, "");
+            if (membershipStateEntity.AddMember == true)
+                return new Tuple<bool, string>(false, "");
+            if (membershipStateEntity.AddMember is null)
+                return new Tuple<bool, string>(false, "Your request is pending");
+            if (membershipStateEntity.AddMember == false && membershipStateEntity.MessageDate.Value.AddMonths(1) <= DateTime.Now)
+                return new Tuple<bool, string>(true, "");
+            return new Tuple<bool, string>(false, "Your unable to send a join request until " +
+                    membershipStateEntity.MessageDate.Value.AddMonths(1).ToString("dd/MM/yyyy"));
+        }
 
         public ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount, List<string> membersList)
         {

@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Repositories\DapperRepository.cs" />
+    <Content Include="Repositories\Entities\MembershipStateEntity.cs" />
+    <Content Include="Repositories\Entities\ProjectEntity.cs" />
+    <Content Include="Repositories\Entities\ProjectGridEntity.cs" />
+    <Content Include="Repositories\IRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

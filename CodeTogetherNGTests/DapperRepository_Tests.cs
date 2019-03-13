@@ -176,5 +176,76 @@ namespace CodeTogetherNGTests
             Assert.True(secondProject.Description == "Something doing nothing but slowly");
             Assert.True(secondProject.NewMembers == false);
         }
+
+        [Test]
+        public void MappingToMembership_AlreadyMember()
+        {
+            var membership = new MembershipStateEntity
+            {
+                AddMember = true,
+                MessageDate = DateTimeOffset.Now
+            };
+
+            var tuple = _repository.MappingToMembership(membership);
+
+            Assert.False(tuple.Item1);
+            Assert.True(tuple.Item2 == "");
+        }
+
+        [Test]
+        public void MappingToMembership_New()
+        {
+            
+            var tuple = _repository.MappingToMembership(null);
+
+            Assert.True(tuple.Item1);
+            Assert.True(tuple.Item2 == "");
+        }
+
+        [Test]
+        public void MappingToMembership_RequestPending()
+        {
+            var membership = new MembershipStateEntity
+            {
+                AddMember = null,
+                MessageDate = DateTimeOffset.Now
+            };
+
+            var tuple = _repository.MappingToMembership(membership);
+
+            Assert.False(tuple.Item1);
+            Assert.True(tuple.Item2 == "Your request is pending");
+        }
+
+        [Test]
+        public void MappingToMembership_DeclineWaitedEnough()
+        {
+            var membership = new MembershipStateEntity
+            {
+                AddMember = true,
+                MessageDate = DateTimeOffset.Now.AddMonths(-1)
+            };
+
+            var tuple = _repository.MappingToMembership(membership);
+
+            Assert.False(tuple.Item1);
+            Assert.True(tuple.Item2 == "");
+        }
+
+        [Test]
+        public void MappingToMembership_DeclineMustWait()
+        {
+            var membership = new MembershipStateEntity
+            {
+                AddMember = false,
+                MessageDate = DateTimeOffset.Now.AddDays(-10)
+            };
+
+            var tuple = _repository.MappingToMembership(membership);
+
+            Assert.False(tuple.Item1);
+            Assert.True(tuple.Item2 == "Your unable to send a join request until " +
+                    membership.MessageDate.Value.AddMonths(1).ToString("dd/MM/yyyy"));
+        }
     }
 }

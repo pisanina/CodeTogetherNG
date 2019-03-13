@@ -12,5 +12,6 @@ namespace CodeTogetherNG.Models
         public string Title                   { get; set; }
         public int ProjectId                  { get; set; }
         public string MemberId                { get; set; }
+        public int RequestId                  { get; set; }
     }
 }
