@@ -16,8 +16,7 @@ namespace CodeTogetherNG.Controllers
         [Authorize]
         public ViewResult RequestMember(int projectId)
         {
-            
-            return View("RequestMember", repo.RequestsList(projectId) );
+            return View("RequestMember", repo.RequestsList(projectId));
         }
 
         [HttpPost]
@@ -28,13 +27,11 @@ namespace CodeTogetherNG.Controllers
             return RedirectToAction("ShowProjectsGrid", "Project");
         }
 
-      
         [Authorize]
         public ActionResult ReactToRequest(int id, bool accept, int projectId)
         {
             repo.SetRequestStatus(id, accept);
             return RedirectToAction("RequestMember", "Member", new { projectId = projectId });
         }
-
     }
 }

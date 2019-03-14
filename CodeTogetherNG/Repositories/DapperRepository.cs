@@ -110,6 +110,14 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+        public void DeleteProject(int id)
+        {
+            using (SqlConnection SQLConnect =
+               new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+
+                SQLConnect.Execute("Exec Project_Delete @ProjectId=@I", new { I = id });
+        }
+
         public IEnumerable<ProjectsGridViewModel> SearchProject(string toFind, int[] chosenTechs, bool? newMembers, int? state)
         {
             DataTable dataTableTechList = new DataTable();

@@ -8,6 +8,7 @@ namespace CodeTogetherNG.Repositories
 {
     public interface IRepository
     {
+        void DeleteProject(int id);
         string Project_OwnerName(int id);
         int RequestsCount(int projectId);
         void Project_Edit(ProjectDetailsViewModel project);

@@ -42,6 +42,15 @@ namespace CodeTogetherNG.Controllers
             return RedirectToAction("ShowProjectsGrid", "Project");
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult DeleteProject(int projectId)
+        {
+            repo.DeleteProject(projectId);
+            return RedirectToAction("ShowProjectsGrid", "Project");
+        }
+
+
         public ViewResult ShowProjectsGrid()
         {
             ViewBag.States = repo.Project_States();

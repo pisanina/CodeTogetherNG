@@ -101,30 +101,39 @@
     }
 </form>
 
-<form asp-controller="Member" asp-action="NewRequest" method="post" asp-anti-forgery="true">
-    @if (CanSendJoinRequest && ViewBag.Membership.Item1)
+<form asp-controller="Project" asp-action="DeleteProject" method="post" asp-anti-forgery="true">
+    @if (!OwnerNotLogged)
     {
-        <hr />
         <div class="form-group">
-            <input type="hidden" value=@Model.ID name="projectId" />
-            <textarea class="form-control" id="RequestMessage" name="message"
-                      placeholder="If you want to join this project, please insert message to owner" rows="5"
-                      style="resize:vertical" maxlength=500 minlength=2 required></textarea>
-            <input type="submit" value="Send" class="btn btn-light" id="Send" />
+            <input type="submit" value="Delete project" class="btn btn-light" id="Delete" />
         </div>
     }
 </form>
 
-@if (ViewBag.Membership.Item1 == false)
-{
-    <p id="requestState"> @ViewBag.Membership.Item2 </p>
-}
+    <form asp-controller="Member" asp-action="NewRequest" method="post" asp-anti-forgery="true">
+        @if (CanSendJoinRequest && ViewBag.Membership.Item1)
+        {
+            <hr />
+            <div class="form-group">
+                <input type="hidden" value=@Model.ID name="projectId" />
+                <textarea class="form-control" id="RequestMessage" name="message"
+                          placeholder="If you want to join this project, please insert message to owner" rows="5"
+                          style="resize:vertical" maxlength=500 minlength=2 required></textarea>
+                <input type="submit" value="Send" class="btn btn-light" id="Send" />
+            </div>
+        }
+    </form>
 
-@if (@Model.RequestsCount > 0 && !OwnerNotLogged)
-{
-    <div class="form-group">
+    @if (ViewBag.Membership.Item1 == false)
+    {
+        <p id="requestState"> @ViewBag.Membership.Item2 </p>
+    }
 
-        <input type="button" class="btn btn-light" id="ShowRequest" value="Show New Requests (@Model.RequestsCount)"
-               onclick="location.href='@Url.Action("RequestMember", "Member", new { @projectId = Model.ID })'" />
-    </div>
-}
+    @if (@Model.RequestsCount > 0 && !OwnerNotLogged)
+    {
+        <div class="form-group">
+
+            <input type="button" class="btn btn-light" id="ShowRequest" value="Show New Requests (@Model.RequestsCount)"
+                   onclick="location.href='@Url.Action("RequestMember", "Member", new { @projectId = Model.ID })'" />
+        </div>
+    }
