@@ -33,8 +33,10 @@
                     <li id="About"><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li id="Contact"><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li id="AddProject"><a asp-area="" asp-controller="Project" asp-action="AddProject">Add Project</a></li>
-                    <li id="ProjectsGrid"><a asp-area="" asp-controller="Project" asp-action="ShowProjectsGrid">List of Projects</a></li>
-                    <li id="TechnologiesList"><a asp-area="" asp-controller="Project" asp-action="TechnologiesList">List Technologies</a></li>
+                    <li id="ProjectsGrid"><a asp-area="" asp-controller="Project" asp-action="ShowProjectsGrid">Projects</a></li>
+                    <li id="TechnologiesList"><a asp-area="" asp-controller="Project" asp-action="TechnologiesList">Technologies</a></li>
+                    @if (this.User.Identity.IsAuthenticated)
+                    { <li id="Profile"><a asp-area="" asp-controller="Member" asp-action="ShowUserProfile">Profile</a></li>}
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

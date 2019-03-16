@@ -33,5 +33,29 @@ namespace CodeTogetherNG.Controllers
             repo.SetRequestStatus(id, accept);
             return RedirectToAction("RequestMember", "Member", new { projectId = projectId });
         }
+
+        [HttpGet]
+        public ViewResult ShowUserProfile ()
+        {
+            ViewBag.TechList = repo.Project_Technology();
+            return View("Profile", repo.GetMemberSkills(this.User.Identity.Name));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult UserProfileAdd(int techId, int level)
+        {
+            ViewBag.TechList = repo.Project_Technology();
+            repo.AddTechnologyLevel(this.User.Identity.Name, techId, level);
+            return RedirectToAction("ShowUserProfile", "Member");
+        }
+
+        [Authorize]
+        public ActionResult UserProfileDeleteTechnology(int id)
+        {
+            ViewBag.TechList = repo.Project_Technology();
+            repo.DeleteTechnologyLevel(id);
+            return RedirectToAction("ShowUserProfile", "Member");
+        }
     }
 }

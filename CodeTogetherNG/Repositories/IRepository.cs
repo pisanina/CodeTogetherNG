@@ -11,13 +11,16 @@ namespace CodeTogetherNG.Repositories
         void DeleteProject(int id);
         string Project_OwnerName(int id);
         int RequestsCount(int projectId);
+        void DeleteTechnologyLevel(int id);
+        void SetRequestStatus(int id, bool accept);
         void Project_Edit(ProjectDetailsViewModel project);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
         void NewRequest(int projectId, string userName, string message);
-        void SetRequestStatus(int id, bool accept);
         void NewProject(AddProjectViewModel AddProject, string userName);
+        void AddTechnologyLevel(string userName, int techId, int techLevel);
         Tuple<bool, string> GetMembershipState(int projectId, string userName);
         Tuple<bool, string> MappingToMembership(MembershipStateEntity membershipStateEntity);
+        IEnumerable<MemberProfileViewModel> GetMemberSkills(string userName);
         IEnumerable<ProjectsGridViewModel> AllProjects();
         IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers, int? state);
         IEnumerable<TechnologyViewModel> Project_Technology();

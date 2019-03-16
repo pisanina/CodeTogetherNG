@@ -159,7 +159,7 @@ namespace CodeTogetherNG.Repositories
                 return MappingDataToProjectDetails(grids, requestsCount, membersList);
             }
         }
-       
+
         public void Project_Edit(ProjectDetailsViewModel project)
         {
             DataTable chosenTechs = new DataTable();
@@ -258,6 +258,36 @@ namespace CodeTogetherNG.Repositories
                 SQLConnect.Execute("Exec ProjectMember_NewRequest @projectId=@I, @UserName=@U, @Message=@M",
                     new { I = projectId, U = userName, M = message });
             }
+        }
+
+        public void AddTechnologyLevel(string userName, int techId, int techLevel)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                SQLConnect.Execute("Exec TechnologyLevel_Add @UserName=@N, @TechnologyId=@T, @TechLevel=@L",
+                    new { N = userName, T = techId, L = techLevel });
+            }
+        }
+
+        public IEnumerable<MemberProfileViewModel> GetMemberSkills(string userName)
+        {
+            using (SqlConnection SQLConnect =
+            new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                return SQLConnect.Query<MemberProfileViewModel>("Exec GetListTechnologyLevel @UserName=@N",
+                     new { N = userName });
+            }
+        }
+
+        public void DeleteTechnologyLevel(int id)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                SQLConnect.Execute("Exec TechnologyLevel_Delete @Id=@I", new { I = id });
+            }
+
         }
 
         public Tuple<bool, string> GetMembershipState(int projectId, string userName)
