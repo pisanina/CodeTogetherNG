@@ -23,23 +23,21 @@
     </div>
     <div class="form-group">
         <label asp-for="OwnerName" class="control-label"></label>
-        <input asp-for="OwnerName" class="form-control" id="Owner" ReadOnly="false" />
+
+        <a asp-area="" asp-controller="Member" id="Owner"
+           asp-action="ShowUserProfile" asp-route-userName=" @Model.OwnerName">@Model.OwnerName</a>
     </div>
     <div class="form-group">
         <label asp-for="MembersNames" class="control-label"></label>
-        <input class="form-control" id="Members" ReadOnly="false"
-               value="@for (int i = 0; i < Model.MembersNames.Count; i++)
+        @if (Model.MembersNames.Count == 0)
+        {<p>No members yet</p>}
+        @for (int i = 0; i < Model.MembersNames.Count; i++)
         {
-            if (i == Model.MembersNames.Count - 1)
-            {
-                @Model.MembersNames[i];
-            }
-            else
-            {
-                @(Model.MembersNames[i] + ", ");
-            }
-        } " />
 
+                <a asp-area="" asp-controller="Member" id="User_@Model.MembersNames[i]"
+                   asp-action="ShowUserProfile" asp-route-userName=" @Model.MembersNames[i]">@Model.MembersNames[i]</a>
+
+        }
     </div>
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
@@ -104,37 +102,37 @@
 <form asp-controller="Project" asp-action="DeleteProject" method="post" asp-anti-forgery="true">
     @if (!OwnerNotLogged)
     {
-    <div class="form-group">
-        <input type="hidden" value=@Model.ID name="projectId" />
-        <input type="submit" value="Delete project" class="btn btn-light" id="Delete" />
-    </div>
+        <div class="form-group">
+            <input type="hidden" value=@Model.ID name="projectId" />
+            <input type="submit" value="Delete project" class="btn btn-light" id="Delete" />
+        </div>
     }
 </form>
 
-    <form asp-controller="Member" asp-action="NewRequest" method="post" asp-anti-forgery="true">
-        @if (CanSendJoinRequest && ViewBag.Membership.Item1)
-        {
-            <hr />
-            <div class="form-group">
-                <input type="hidden" value=@Model.ID name="projectId" />
-                <textarea class="form-control" id="RequestMessage" name="message"
-                          placeholder="If you want to join this project, please insert message to owner" rows="5"
-                          style="resize:vertical" maxlength=500 minlength=2 required></textarea>
-                <input type="submit" value="Send" class="btn btn-light" id="Send" />
-            </div>
-        }
-    </form>
-
-    @if (ViewBag.Membership.Item1 == false)
+<form asp-controller="Member" asp-action="NewRequest" method="post" asp-anti-forgery="true">
+    @if (CanSendJoinRequest && ViewBag.Membership.Item1)
     {
-        <p id="requestState"> @ViewBag.Membership.Item2 </p>
-    }
-
-    @if (@Model.RequestsCount > 0 && !OwnerNotLogged)
-    {
+        <hr />
         <div class="form-group">
-
-            <input type="button" class="btn btn-light" id="ShowRequest" value="Show New Requests (@Model.RequestsCount)"
-                   onclick="location.href='@Url.Action("RequestMember", "Member", new { @projectId = Model.ID })'" />
+            <input type="hidden" value=@Model.ID name="projectId" />
+            <textarea class="form-control" id="RequestMessage" name="message"
+                      placeholder="If you want to join this project, please insert message to owner" rows="5"
+                      style="resize:vertical" maxlength=500 minlength=2 required></textarea>
+            <input type="submit" value="Send" class="btn btn-light" id="Send" />
         </div>
     }
+</form>
+
+@if (ViewBag.Membership.Item1 == false)
+{
+    <p id="requestState"> @ViewBag.Membership.Item2 </p>
+}
+
+@if (@Model.RequestsCount > 0 && !OwnerNotLogged)
+{
+    <div class="form-group">
+
+        <input type="button" class="btn btn-light" id="ShowRequest" value="Show New Requests (@Model.RequestsCount)"
+               onclick="location.href='@Url.Action("RequestMember", "Member", new { @projectId = Model.ID })'" />
+    </div>
+}
