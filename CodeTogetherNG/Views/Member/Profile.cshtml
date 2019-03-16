@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CodeTogetherNG.Models.MemberProfileViewModel>
+﻿@model ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,33 +29,60 @@
     </form>
 }
 <br /><br />
-
-<table class="table-bordered table-striped table" id="TechTable" style="font-size: 14px;">
-    <thead>
-        <tr>
-            <th>Technology</th>
-            <th>Skill Level</th>
-            @if (ViewBag.IsOwner)
-            {
-                <th></th>}
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (Model.SkillList.Any())
+{
+    <table class="table-bordered table-striped table" id="TechTable" style="font-size: 14px;">
+        <thead>
             <tr>
-                <td>@item.TechName</td>
-                @{string levelName = item.TechLevel==1 ? "Beginner" :
-                                                         item.TechLevel==2 ? "Advanced" : "Expert";}
-                <td> @levelName </td>
-
+                <th>Technology</th>
+                <th>Skill Level</th>
                 @if (ViewBag.IsOwner)
                 {
-                    <td>
-                        <input type="button" class="btn btn-light" id="Delete_@item.Id" value="Delete" onclick="location.href='@Url.Action("UserProfileDeleteTechnology", "Member", new { @Id = item.Id })'" />
-                    </td>
-                }
+                    <th></th>}
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.SkillList)
+            {
+                <tr>
+                    <td>@item.TechName</td>
+                    @{string levelName = item.TechLevel==1 ? "Beginner" :
+                                                 item.TechLevel==2 ? "Advanced" : "Expert";}
+                    <td> @levelName </td>
+
+                    @if (ViewBag.IsOwner)
+                    {
+                        <td>
+                            <input type="button" class="btn btn-light" id="Delete_@item.Id" value="Delete" onclick="location.href='@Url.Action("UserProfileDeleteTechnology", "Member", new { @Id = item.Id })'" />
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{ <p>No skills defined yet</p>}
+@if (Model.ProjectList.Any())
+{
+    <table class="table-bordered table-striped table" id="TechTable" style="font-size: 14px;">
+        <thead>
+            <tr>
+                <th>Project Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ProjectList)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="" asp-controller="Project" asp-action="ProjectDetails"
+                           asp-route-ID="@item.Id">@item.Title</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{<p>This user in not involved in any project yet</p>}

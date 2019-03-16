@@ -1,4 +1,5 @@
-﻿using CodeTogetherNG.Repositories;
+﻿using CodeTogetherNG.Models;
+using CodeTogetherNG.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,8 +45,13 @@ namespace CodeTogetherNG.Controllers
                 ViewBag.IsOwner = true;
             else
                 ViewBag.IsOwner = false;
+
+            ProfileViewModel profile = new ProfileViewModel();
+            profile.SkillList = repo.GetMemberSkills(userName);
+            profile.ProjectList = repo.GetProjectsTitleUserInvolve(userName);
+
             ViewBag.TechList = repo.Project_Technology();
-            return View("Profile", repo.GetMemberSkills(userName));
+            return View("Profile", profile);
         }
 
         [HttpPost]

@@ -270,12 +270,12 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public IEnumerable<MemberProfileViewModel> GetMemberSkills(string userName)
+        public IEnumerable<ProfileSkillRowViewModel> GetMemberSkills(string userName)
         {
             using (SqlConnection SQLConnect =
             new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                return SQLConnect.Query<MemberProfileViewModel>("Exec GetListTechnologyLevel @UserName=@N",
+                return SQLConnect.Query<ProfileSkillRowViewModel>("Exec GetListTechnologyLevel @UserName=@N",
                      new { N = userName });
             }
         }
@@ -295,6 +295,17 @@ namespace CodeTogetherNG.Repositories
              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
                 return SQLConnect.Query<string>("Exec Users_List");
+            }
+        }
+
+
+        public IEnumerable<ProfileProjectRowViewModel> GetProjectsTitleUserInvolve(string userName)
+        {
+            using (SqlConnection SQLConnect =
+             new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var list = SQLConnect.Query<ProfileProjectRowViewModel>("Exec GetProjectTitleForUser @UserName=@U", new { U = userName });
+                return list;
             }
         }
 

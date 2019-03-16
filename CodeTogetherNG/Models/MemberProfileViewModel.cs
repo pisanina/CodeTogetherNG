@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CodeTogetherNG.Models
 {
-    public class MemberProfileViewModel
+    public class ProfileSkillRowViewModel
     {
         public int Id             { get; set; }
         public int TechLevel      { get; set; }
