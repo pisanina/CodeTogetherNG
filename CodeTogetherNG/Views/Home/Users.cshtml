@@ -17,8 +17,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item</td>
+                <td><li id="User_@item"><a asp-area="" asp-controller="Member" 
+                        asp-action="ShowUserProfile" asp-route-userName="@item">@item</a></li>
+            </td>
             </tr>
         }
-        </tbody>
+    </tbody>
     </table>

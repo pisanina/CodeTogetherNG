@@ -5,26 +5,29 @@
 }
 
 <h2>Profile</h2>
-<form asp-controller="Member" asp-action="UserProfileAdd" method="post">
-    <div class="col-md-12">
-        <select name="techId" id="TechList">
+@if (ViewBag.IsOwner)
+{
+    <form asp-controller="Member" asp-action="UserProfileAdd" method="post">
+        <div class="col-md-12">
+            <select name="techId" id="TechList">
 
-            @foreach (var item in ViewBag.TechList)
-            {
-                <option value=@item.Id>@item.TechName</option>
-            }
-        </select>
+                @foreach (var item in ViewBag.TechList)
+                {
+                    <option value=@item.Id>@item.TechName</option>
+                }
+            </select>
 
-        <select name="level" id="Level" required>
-            <option value="">Level</option>
-            <option value=1>Beginner</option>
-            <option value=2>Advanced</option>
-            <option value=3>Expert</option>
-        </select>
+            <select name="level" id="Level" required>
+                <option value="">Level</option>
+                <option value=1>Beginner</option>
+                <option value=2>Advanced</option>
+                <option value=3>Expert</option>
+            </select>
 
-        <input type="submit" value="Add" class="btn btn-sm" id="Add" />
-    </div>
-</form>
+            <input type="submit" value="Add" class="btn btn-sm" id="Add" />
+        </div>
+    </form>
+}
 <br /><br />
 
 <table class="table-bordered table-striped table" id="TechTable" style="font-size: 14px;">
@@ -32,7 +35,9 @@
         <tr>
             <th>Technology</th>
             <th>Skill Level</th>
-            <th></th>
+            @if (ViewBag.IsOwner)
+            {
+                <th></th>}
         </tr>
     </thead>
     <tbody>
@@ -41,12 +46,15 @@
             <tr>
                 <td>@item.TechName</td>
                 @{string levelName = item.TechLevel==1 ? "Beginner" :
-                                                     item.TechLevel==2 ? "Advanced" : "Expert";}
+                                                         item.TechLevel==2 ? "Advanced" : "Expert";}
                 <td> @levelName </td>
 
-                <td>
-                    <input type="button" class="btn btn-light" id="Delete_@item.Id" value="Delete" onclick="location.href='@Url.Action("UserProfileDeleteTechnology", "Member", new { @Id = item.Id })'" />
-                </td>
+                @if (ViewBag.IsOwner)
+                {
+                    <td>
+                        <input type="button" class="btn btn-light" id="Delete_@item.Id" value="Delete" onclick="location.href='@Url.Action("UserProfileDeleteTechnology", "Member", new { @Id = item.Id })'" />
+                    </td>
+                }
             </tr>
         }
     </tbody>

@@ -35,10 +35,17 @@ namespace CodeTogetherNG.Controllers
         }
 
         [HttpGet]
-        public ViewResult ShowUserProfile()
+        public ViewResult ShowUserProfile(string userName)
         {
+            if(string.IsNullOrEmpty(userName))
+            { userName = this.User.Identity.Name; }
+
+            if (this.User.Identity.Name == userName)
+                ViewBag.IsOwner = true;
+            else
+                ViewBag.IsOwner = false;
             ViewBag.TechList = repo.Project_Technology();
-            return View("Profile", repo.GetMemberSkills(this.User.Identity.Name));
+            return View("Profile", repo.GetMemberSkills(userName));
         }
 
         [HttpPost]
