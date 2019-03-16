@@ -287,7 +287,15 @@ namespace CodeTogetherNG.Repositories
             {
                 SQLConnect.Execute("Exec TechnologyLevel_Delete @Id=@I", new { I = id });
             }
+        }
 
+        public IEnumerable<string> UsersList()
+        {
+            using (SqlConnection SQLConnect =
+             new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                return SQLConnect.Query<string>("Exec Users_List");
+            }
         }
 
         public Tuple<bool, string> GetMembershipState(int projectId, string userName)

@@ -35,7 +35,7 @@ namespace CodeTogetherNG.Controllers
         }
 
         [HttpGet]
-        public ViewResult ShowUserProfile ()
+        public ViewResult ShowUserProfile()
         {
             ViewBag.TechList = repo.Project_Technology();
             return View("Profile", repo.GetMemberSkills(this.User.Identity.Name));

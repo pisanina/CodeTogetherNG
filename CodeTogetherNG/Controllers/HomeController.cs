@@ -44,5 +44,10 @@ namespace CodeTogetherNG.Controllers
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public ViewResult GetListOfUsers()
+        {
+            return View("Users", _repo.UsersList());
+        }
     }
 }

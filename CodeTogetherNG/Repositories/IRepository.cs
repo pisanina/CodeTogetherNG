@@ -20,12 +20,13 @@ namespace CodeTogetherNG.Repositories
         void AddTechnologyLevel(string userName, int techId, int techLevel);
         Tuple<bool, string> GetMembershipState(int projectId, string userName);
         Tuple<bool, string> MappingToMembership(MembershipStateEntity membershipStateEntity);
-        IEnumerable<MemberProfileViewModel> GetMemberSkills(string userName);
+        IEnumerable<string> UsersList();
         IEnumerable<ProjectsGridViewModel> AllProjects();
-        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers, int? state);
-        IEnumerable<TechnologyViewModel> Project_Technology();
         IEnumerable<ProjectStateViewModel> Project_States();
+        IEnumerable<TechnologyViewModel> Project_Technology();
         IEnumerable<RequestsListViewModel> RequestsList(int projectId);
+        IEnumerable<MemberProfileViewModel> GetMemberSkills(string userName);
+        IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers, int? state);
         IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid);
         ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount, List<string> membersList);
         ProjectDetailsViewModel Project_Details(int IdToFind);
