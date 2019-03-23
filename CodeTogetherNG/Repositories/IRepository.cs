@@ -20,7 +20,7 @@ namespace CodeTogetherNG.Repositories
         void AddTechnologyLevel(string userName, int techId, int techLevel);
         Tuple<bool, string> GetMembershipState(int projectId, string userName);
         Tuple<bool, string> MappingToMembership(MembershipStateEntity membershipStateEntity);
-        IEnumerable<string> UsersList();
+        IEnumerable<UsersListViewModel> UsersList();
         IEnumerable<ProjectsGridViewModel> AllProjects();
         IEnumerable<ProjectStateViewModel> Project_States();
         IEnumerable<TechnologyViewModel> Project_Technology();

@@ -289,12 +289,12 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
-        public IEnumerable<string> UsersList()
+        public IEnumerable<UsersListViewModel> UsersList()
         {
             using (SqlConnection SQLConnect =
              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                return SQLConnect.Query<string>("Exec Users_List");
+                return SQLConnect.Query<UsersListViewModel>("Exec Users_List");
             }
         }
 

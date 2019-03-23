@@ -25,7 +25,7 @@
         <label asp-for="OwnerName" class="control-label"></label>
 
         <a asp-area="" asp-controller="Member" id="Owner"
-           asp-action="ShowUserProfile" asp-route-userName=" @Model.OwnerName">@Model.OwnerName</a>
+           asp-action="ShowUserProfile" asp-route-userName="@Model.OwnerName">@Model.OwnerName</a>
     </div>
     <div class="form-group">
         <label asp-for="MembersNames" class="control-label"></label>
@@ -35,7 +35,7 @@
         {
 
                 <a asp-area="" asp-controller="Member" id="User_@Model.MembersNames[i]"
-                   asp-action="ShowUserProfile" asp-route-userName=" @Model.MembersNames[i]">@Model.MembersNames[i]</a>
+                   asp-action="ShowUserProfile" asp-route-userName="@Model.MembersNames[i]">@Model.MembersNames[i]</a>
 
         }
     </div>

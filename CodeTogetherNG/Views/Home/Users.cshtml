@@ -1,4 +1,4 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<CodeTogetherNG.Models.UsersListViewModel>
 @{
     ViewData["Title"] = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,21 +6,47 @@
 
 <h2>Users</h2>
 
-<table class="table-bordered table-striped table" id="UsersList" style="font-size: 14px;">
+<table class="table-bordered table-striped table" id="UsersListTable" style="font-size: 14px;">
     <thead>
         <tr>
             <th>User Name</th>
+            <th>Owner of projects</th>
+            <th>Member of projects</th>
+            <th>Begginer In technologies</th>
+            <th>Advanced In technologies</th>
+            <th>Expert In technologies</th>
         </tr>
     </thead>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td><li id="User_@item"><a asp-area="" asp-controller="Member" 
-                        asp-action="ShowUserProfile" asp-route-userName="@item">@item</a></li>
-            </td>
+    <form asp-controller="Home" asp-action="GetListOfUsers" method="get">
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="User_@item">
+
+
+                <td id="User_@item">
+                    <a asp-area="" asp-controller="Member"
+                       asp-action="ShowUserProfile" asp-route-userName="@item.UserName">@item.UserName</a>
+                </td>
+                <td>
+                    <p> @item.OwnerOf</p>
+                </td>
+                <td>
+                    <p> @item.MemberOf</p>
+                </td>
+                <td>
+                    <p> @item.BeginnerIn</p>
+                </td>
+                <td>
+                    <p> @item.AdvancedIn</p>
+                </td>
+                <td>
+                    <p> @item.ExpertIn</p>
+                </td>
+               
             </tr>
-        }
-    </tbody>
-    </table>
+            }
+        </tbody>
+        </form>
+</table>
