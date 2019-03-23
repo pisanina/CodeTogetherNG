@@ -23,28 +23,15 @@
             @foreach (var item in Model)
             {
             <tr id="User_@item">
-
-
                 <td id="User_@item">
                     <a asp-area="" asp-controller="Member"
                        asp-action="ShowUserProfile" asp-route-userName="@item.UserName">@item.UserName</a>
                 </td>
-                <td>
-                    <p> @item.OwnerOf</p>
-                </td>
-                <td>
-                    <p> @item.MemberOf</p>
-                </td>
-                <td>
-                    <p> @item.BeginnerIn</p>
-                </td>
-                <td>
-                    <p> @item.AdvancedIn</p>
-                </td>
-                <td>
-                    <p> @item.ExpertIn</p>
-                </td>
-               
+                <td> <p> @item.OwnerOf</p> </td>
+                <td> <p> @item.MemberOf</p> </td>
+                <td> <p> @item.BeginnerIn</p> </td>
+                <td> <p> @item.AdvancedIn</p> </td>
+                <td> <p> @item.ExpertIn</p> </td>
             </tr>
             }
         </tbody>

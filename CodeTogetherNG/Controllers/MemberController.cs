@@ -46,6 +46,7 @@ namespace CodeTogetherNG.Controllers
             else
                 ViewBag.IsOwner = false;
 
+            ViewBag.UserName = userName;
             ProfileViewModel profile = new ProfileViewModel();
             profile.SkillList = repo.GetMemberSkills(userName);
             profile.ProjectList = repo.GetProjectsTitleUserInvolve(userName);
