@@ -45,15 +45,15 @@
             @foreach (var item in Model.SkillList)
             {
                 <tr>
-                    <td>@item.TechName</td>
+                    <td id="userskill_@item.TechName">@item.TechName</td>
                     @{string levelName = item.TechLevel==1 ? "Beginner" :
                                                  item.TechLevel==2 ? "Advanced" : "Expert";}
-                    <td> @levelName </td>
+                    <td id="skilllevel_@item.TechName"> @levelName </td>
 
                     @if (ViewBag.IsOwner)
                     {
                         <td>
-                            <input type="button" class="btn btn-light" id="Delete_@item.Id" value="Delete" 
+                            <input type="button" class="btn btn-light" id="Delete_@item.TechName" value="Delete" 
                                    onclick="location.href='@Url.Action("UserProfileDeleteTechnology", "Member", new { @Id = item.Id })'" />
                         </td>
                     }
@@ -63,7 +63,7 @@
     </table>
 }
 else
-{ <p>No skills defined yet</p>}
+{ <p id="noskill">No skills defined yet</p>}
 
 @if (Model.ProjectList.Any())
 {
@@ -79,7 +79,7 @@ else
                 <tr>
                     <td>
                         <a asp-area="" asp-controller="Project" asp-action="ProjectDetails"
-                           asp-route-ID="@item.Id" id="Project_@item.Id">@item.Title</a>
+                           asp-route-ID="@item.Id" id="@item.Title">@item.Title</a>
                     </td>
                 </tr>
             }
@@ -87,4 +87,4 @@ else
     </table>
 }
 else
-{<p>This user in not involved in any project yet</p>}
+{<p id="noproject">This user in not involved in any project yet</p>}

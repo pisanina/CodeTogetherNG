@@ -12,9 +12,9 @@
             <th>User Name</th>
             <th>Owner of projects</th>
             <th>Member of projects</th>
-            <th>Begginer In technologies</th>
-            <th>Advanced In technologies</th>
-            <th>Expert In technologies</th>
+            <th>Beginner in technologies</th>
+            <th>Advanced in technologies</th>
+            <th>Expert in technologies</th>
         </tr>
     </thead>
 
@@ -23,15 +23,15 @@
             @foreach (var item in Model)
             {
             <tr id="User_@item">
-                <td id="User_@item">
+                <td id="@item.UserName">
                     <a asp-area="" asp-controller="Member"
                        asp-action="ShowUserProfile" asp-route-userName="@item.UserName">@item.UserName</a>
                 </td>
-                <td> <p> @item.OwnerOf</p> </td>
-                <td> <p> @item.MemberOf</p> </td>
-                <td> <p> @item.BeginnerIn</p> </td>
-                <td> <p> @item.AdvancedIn</p> </td>
-                <td> <p> @item.ExpertIn</p> </td>
+                <td> <p id="ownerof_@item.UserName"> @item.OwnerOf</p> </td>
+                <td> <p id="memberof_@item.UserName"> @item.MemberOf</p> </td>
+                <td> <p id="beginnerin_@item.UserName"> @item.BeginnerIn</p> </td>
+                <td> <p id="advancedin_@item.UserName"> @item.AdvancedIn</p> </td>
+                <td> <p id="expertin_@item.UserName"> @item.ExpertIn</p> </td>
             </tr>
             }
         </tbody>

@@ -72,6 +72,7 @@ namespace CodeTogetherNG.Controllers
             ViewBag.States = repo.Project_States();
             ViewBag.TechList = repo.Project_Technology();
             ViewBag.Membership = repo.GetMembershipState(id, this.User.Identity.Name);
+
             return View("ProjectDetails", repo.Project_Details(id));
         }
 
