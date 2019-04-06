@@ -37,7 +37,8 @@
                     <li id="TechnologiesList"><a asp-area="" asp-controller="Project" asp-action="TechnologiesList">Technologies</a></li>
                     <li id="UsersList"><a asp-area="" asp-controller="Home" asp-action="GetListOfUsers">Users</a></li>
                     @if (this.User.Identity.IsAuthenticated)
-                    { <li id="Profile"><a asp-area="" asp-controller="Member" asp-action="ShowUserProfile">Profile</a></li>}
+                    {
+                        <li id="Profile"><a asp-area="" asp-controller="Member" asp-action="ShowUserProfile">Profile</a></li>}
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -45,12 +46,19 @@
     </nav>
 
     <partial name="_CookieConsentPartial" />
+    
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
         <footer>
-            <p>&copy; 2019 - CodeTogetherNG</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                        <p width="full">&copy; 2019 - CodeTogetherNG</p>
+                    </div>
+                </div>
+            </div>
         </footer>
     </div>
 
