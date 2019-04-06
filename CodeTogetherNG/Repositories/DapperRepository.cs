@@ -200,6 +200,16 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+        public IEnumerable<ITRoleViewModel> ITRoleList()
+        {
+            using (SqlConnection SQLConnect =
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                var ITRoleList = SQLConnect.Query<ITRoleViewModel>("Exec ITRole_List");
+                return ITRoleList;
+            }
+        }
+
         public IEnumerable<ProjectStateViewModel> Project_States()
         {
             using (SqlConnection SQLConnect =
@@ -270,12 +280,42 @@ namespace CodeTogetherNG.Repositories
             }
         }
 
+        public void AddITRole(string userName, int roleId)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                SQLConnect.Execute("Exec ITRole_Add @UserName=@N, @RoleId=@T",
+                    new { N = userName, T = roleId });
+            }
+        }
+
+        public void DeleteITRole(string userName, int roleId)
+        {
+            using (SqlConnection SQLConnect =
+              new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                SQLConnect.Execute("Exec ITRole_Delete @UserName=@N, @RoleId=@T",
+                    new { N = userName, T = roleId });
+            }
+        }
+
         public IEnumerable<ProfileSkillRowViewModel> GetMemberSkills(string userName)
         {
             using (SqlConnection SQLConnect =
             new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
                 return SQLConnect.Query<ProfileSkillRowViewModel>("Exec GetListTechnologyLevel @UserName=@N",
+                     new { N = userName });
+            }
+        }
+
+        public IEnumerable<ProfileITRoleRowViewModel> GetUserITRoles(string userName)
+        {
+            using (SqlConnection SQLConnect =
+            new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                return SQLConnect.Query<ProfileITRoleRowViewModel>("Exec GetUserITRoles @UserName=@N",
                      new { N = userName });
             }
         }

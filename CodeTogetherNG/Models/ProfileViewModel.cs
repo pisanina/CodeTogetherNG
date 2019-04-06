@@ -9,5 +9,6 @@ namespace CodeTogetherNG.Models
     {
         public IEnumerable<ProfileSkillRowViewModel> SkillList        { get; set; }
         public IEnumerable<ProfileProjectRowViewModel> ProjectList    { get; set; }
+        public IEnumerable<ProfileITRoleRowViewModel> ITRoleList    { get; set; }
     }
 }

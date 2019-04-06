@@ -2,6 +2,7 @@
 using CodeTogetherNG.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace CodeTogetherNG.Controllers
 {
@@ -50,25 +51,50 @@ namespace CodeTogetherNG.Controllers
             ProfileViewModel profile = new ProfileViewModel();
             profile.SkillList = repo.GetMemberSkills(userName);
             profile.ProjectList = repo.GetProjectsTitleUserInvolve(userName);
+            profile.ITRoleList = repo.GetUserITRoles(userName);
 
             ViewBag.TechList = repo.Project_Technology();
+            ViewBag.ITRoleList = repo.ITRoleList();
             return View("Profile", profile);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult UserProfileAdd(int techId, int level)
+        public ActionResult UserProfileAddTech(int techId, int level)
         {
-            ViewBag.TechList = repo.Project_Technology();
             repo.AddTechnologyLevel(this.User.Identity.Name, techId, level);
+            
             return RedirectToAction("ShowUserProfile", "Member");
         }
 
         [Authorize]
         public ActionResult UserProfileDeleteTechnology(int id)
         {
-            ViewBag.TechList = repo.Project_Technology();
             repo.DeleteTechnologyLevel(id);
+            return RedirectToAction("ShowUserProfile", "Member");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult UserProfileAddITRole(int roleId)
+        {
+            try
+            {
+                repo.AddITRole(this.User.Identity.Name, roleId);
+            }
+            catch (SqlException sqlEX)
+            {
+                if (!sqlEX.Message.Contains("UC_UserITRole_UserID_RoleID"))
+                    throw;
+            }
+
+            return RedirectToAction("ShowUserProfile", "Member");
+        }
+
+        [Authorize]
+        public ActionResult UserProfileDeleteITRole(int roleId)
+        {
+            repo.DeleteITRole(this.User.Identity.Name, roleId);
             return RedirectToAction("ShowUserProfile", "Member");
         }
     }

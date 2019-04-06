@@ -13,6 +13,8 @@ namespace CodeTogetherNG.Repositories
         int RequestsCount(int projectId);
         void DeleteTechnologyLevel(int id);
         void SetRequestStatus(int id, bool accept);
+        void AddITRole(string userName, int roleId);
+        void DeleteITRole(string userName, int roleId);
         void Project_Edit(ProjectDetailsViewModel project);
         void ErrorsLog(IExceptionHandlerPathFeature exceptionFeature);
         void NewRequest(int projectId, string userName, string message);
@@ -20,13 +22,15 @@ namespace CodeTogetherNG.Repositories
         void AddTechnologyLevel(string userName, int techId, int techLevel);
         Tuple<bool, string> GetMembershipState(int projectId, string userName);
         Tuple<bool, string> MappingToMembership(MembershipStateEntity membershipStateEntity);
+        IEnumerable<ITRoleViewModel> ITRoleList();
         IEnumerable<UsersListViewModel> UsersList();
         IEnumerable<ProjectsGridViewModel> AllProjects();
         IEnumerable<ProjectStateViewModel> Project_States();
         IEnumerable<TechnologyViewModel> Project_Technology();
-        IEnumerable<ProfileProjectRowViewModel> GetProjectsTitleUserInvolve(string userId);
         IEnumerable<RequestsListViewModel> RequestsList(int projectId);
         IEnumerable<ProfileSkillRowViewModel> GetMemberSkills(string userName);
+        IEnumerable<ProfileITRoleRowViewModel> GetUserITRoles(string userName);
+        IEnumerable<ProfileProjectRowViewModel> GetProjectsTitleUserInvolve(string userId);
         IEnumerable<ProjectsGridViewModel> SearchProject(string ToFind, int[] TechList, bool? newMembers, int? state);
         IEnumerable<ProjectsGridViewModel> MappingDataToProjectsGrid(IEnumerable<ProjectGridEntity> grid);
         ProjectDetailsViewModel MappingDataToProjectDetails(List<ProjectEntity> grid, int requestsCount, List<string> membersList);
