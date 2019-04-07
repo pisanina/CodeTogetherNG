@@ -1,0 +1,29 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+@if (Model.ProjectList.Any())
+{
+    <table class="table-bordered table-striped table" id="ProjectsTable" style="font-size: 14px;">
+        <thead>
+            <tr>
+                <th>Projects this users is involved in</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ProjectList)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="" asp-controller="Project" asp-action="ProjectDetails"
+                           asp-route-ID="@item.Id" id="@item.Title">@item.Title</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{<p id="noproject">This user in not involved in any project yet</p>}

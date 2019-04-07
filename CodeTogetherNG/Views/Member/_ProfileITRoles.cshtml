@@ -1,0 +1,54 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@if (ViewBag.IsOwner)
+{
+    <form asp-controller="Member" asp-action="UserProfileAddITRole" method="post">
+        <div class="col-md-12">
+            <select name="roleId" id="ITRoleList">
+
+                @foreach (var item in ViewBag.ITRoleList)
+                {
+                    <option value=@item.Id>@item.Role</option>
+                }
+            </select>
+            <input type="submit" value="Add" class="btn btn-sm" id="AddITRole" />
+        </div>
+    </form>
+    <br /><br />
+}
+
+@if (Model.ITRoleList.Any())
+{
+    <table class="table-bordered table-striped table" id="RolesTable" style="font-size: 14px;">
+        <thead>
+            <tr>
+                <th>User's roles</th>
+
+                @if (ViewBag.IsOwner)
+                {
+                    <th></th>}
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ITRoleList)
+            {
+                <tr>
+                    <td id="usersrole_@item.Role">@item.Role</td>
+
+                    @if (ViewBag.IsOwner)
+                    {
+                        <td>
+                            <input type="button" class="btn btn-light" id="Delete_@item.Role" value="Delete"
+                                   onclick="location.href='@Url.Action("UserProfileDeleteITRole", "Member", new {@UserName =this.User.Identity.Name, @RoleId = item.Id })'" />
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{<p id="noroles">No roles defined yet</p>}
