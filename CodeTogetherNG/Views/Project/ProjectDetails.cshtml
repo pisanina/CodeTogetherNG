@@ -104,7 +104,8 @@
     {
         <div class="form-group">
             <input type="hidden" value=@Model.ID name="projectId" />
-            <input type="submit" value="Delete project" class="btn btn-light" id="Delete" />
+            <input type="submit" value="Delete project" class="btn btn-light" id="Delete" 
+                   onclick="return confirm('Are you sure want to delete this project?')" />
         </div>
     }
 </form>
